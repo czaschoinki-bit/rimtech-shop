@@ -1,0 +1,97 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+locale: "pl"
+
+collections:
+  - name: "products"
+    label: "Produkty"
+    folder: "products"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - label: "Nazwa produktu"
+        name: "title"
+        widget: "string"
+
+      - label: "Cena"
+        name: "price"
+        widget: "number"
+        value_type: "int"
+        min: 0
+
+      - label: "Waluta"
+        name: "currency"
+        widget: "string"
+        default: "PLN"
+
+      - label: "Krótki opis"
+        name: "short_description"
+        widget: "text"
+
+      - label: "Pełny opis"
+        name: "description"
+        widget: "markdown"
+
+      - label: "Dostępność"
+        name: "availability"
+        widget: "select"
+        options:
+          - "Dostępny"
+          - "Na zamówienie"
+          - "Brak w magazynie"
+        default: "Na zamówienie"
+
+      - label: "Zdjęcie główne"
+        name: "main_image"
+        widget: "image"
+        required: false
+
+      - label: "Kompatybilność"
+        name: "compatibility"
+        widget: "list"
+        required: false
+        field:
+          label: "Model motocykla"
+          name: "model"
+          widget: "string"
+
+      - label: "Link do płatności"
+        name: "payment_link"
+        widget: "string"
+        required: false
+
+      - label: "Produkt aktywny"
+        name: "active"
+        widget: "boolean"
+        default: true
+
+  - name: "pages"
+    label: "Treści strony"
+    files:
+      - name: "home"
+        label: "Strona główna"
+        file: "content/home.json"
+        format: "json"
+        fields:
+          - label: "Główny nagłówek"
+            name: "hero_title"
+            widget: "string"
+
+          - label: "Tekst pod nagłówkiem"
+            name: "hero_description"
+            widget: "text"
+
+          - label: "E-mail kontaktowy"
+            name: "contact_email"
+            widget: "string"
+
+          - label: "Telefon kontaktowy"
+            name: "contact_phone"
+            widget: "string"
