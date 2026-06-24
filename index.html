@@ -64,6 +64,9 @@
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
     }
 
     .card {
@@ -96,10 +99,27 @@
       margin-top: 0;
     }
 
+    .product p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+
     .price {
       font-size: 24px;
       font-weight: bold;
       color: #fff;
+    }
+
+    .availability {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .compatibility {
+      margin-top: 12px;
+      padding-left: 18px;
+      color: #ccc;
+      font-size: 14px;
     }
 
     footer {
@@ -149,8 +169,8 @@
   <main>
     <section class="hero">
       <div>
-        <h1>Koła motocyklowe supermoto i enduro</h1>
-        <p>
+        <h1 id="hero-title">Koła motocyklowe supermoto i enduro</h1>
+        <p id="hero-description">
           Konfigurowane zestawy kół do motocykli KTM, Husqvarna, GasGas i innych modeli.
           Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl.
         </p>
@@ -167,36 +187,16 @@
 
     <section class="section" id="produkty">
       <h2>Produkty</h2>
-
-      <div class="products">
-        <div class="product">
-          <h3>Komplet kół Supermoto KTM</h3>
-          <p>Koła 17 cali do KTM EXC / EXC-F.</p>
-          <p class="price">od 2 599 zł</p>
-          <a class="button" href="#kontakt">Zapytaj o dostępność</a>
-        </div>
-
-        <div class="product">
-          <h3>Komplet kół Supermoto Husqvarna</h3>
-          <p>Koła 17 cali do Husqvarna TE / FE.</p>
-          <p class="price">od 2 599 zł</p>
-          <a class="button" href="#kontakt">Zapytaj o dostępność</a>
-        </div>
-
-        <div class="product">
-          <h3>Koła pod indywidualne zamówienie</h3>
-          <p>Konfiguracja pod konkretny motocykl i kolorystykę.</p>
-          <p class="price">wycena indywidualna</p>
-          <a class="button" href="#kontakt">Skontaktuj się</a>
-        </div>
+      <div class="products" id="products-list">
+        <p>Ładowanie produktów...</p>
       </div>
     </section>
 
     <section class="section" id="kontakt">
       <h2>Kontakt</h2>
       <p>Napisz do nas, aby dobrać komplet kół do Twojego motocykla.</p>
-      <p><strong>E-mail:</strong> kontakt@rimtechdynamics.pl</p>
-      <p><strong>Telefon:</strong> 500 555 297</p>
+      <p><strong>E-mail:</strong> <span id="contact-email">kontakt@rimtechdynamics.pl</span></p>
+      <p><strong>Telefon:</strong> <span id="contact-phone">500 555 297</span></p>
     </section>
   </main>
 
@@ -205,7 +205,64 @@
   </footer>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
   <script>
+    async function loadHomeContent() {
+      try {
+        const response = await fetch('/content/home.json');
+        const home = await response.json();
+
+        document.getElementById('hero-title').textContent = home.hero_title;
+        document.getElementById('hero-description').textContent = home.hero_description;
+        document.getElementById('contact-email').textContent = home.contact_email;
+        document.getElementById('contact-phone').textContent = home.contact_phone;
+      } catch (error) {
+        console.error('Nie udało się załadować treści strony głównej:', error);
+      }
+    }
+
+    async function loadProducts() {
+      const productsList = document.getElementById('products-list');
+
+      try {
+        const response = await fetch('/data/products.json');
+        const data = await response.json();
+        const products = data.products.filter(product => product.active);
+
+        if (!products.length) {
+          productsList.innerHTML = '<p>Brak aktywnych produktów.</p>';
+          return;
+        }
+
+        productsList.innerHTML = products.map(product => {
+          const compatibility = Array.isArray(product.compatibility)
+            ? product.compatibility.map(item => `<li>${item}</li>`).join('')
+            : '';
+
+          const paymentButton = product.payment_link
+            ? `<a class="button" href="${product.payment_link}" target="_blank" rel="noopener">Kup teraz</a>`
+            : `<a class="button" href="#kontakt">Zapytaj o dostępność</a>`;
+
+          return `
+            <div class="product">
+              <h3>${product.title}</h3>
+              <p>${product.short_description}</p>
+              <p class="price">${product.price} ${product.currency}</p>
+              <p class="availability">${product.availability}</p>
+              ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : ''}
+              ${paymentButton}
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Nie udało się załadować produktów:', error);
+        productsList.innerHTML = '<p>Nie udało się załadować produktów.</p>';
+      }
+    }
+
+    loadHomeContent();
+    loadProducts();
+
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
         if (!user) {
