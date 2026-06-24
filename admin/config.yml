@@ -21,6 +21,11 @@ collections:
             widget: "list"
             summary: "{{fields.title}} - {{fields.price}} zł"
             fields:
+              - label: "Slug produktu"
+                name: "slug"
+                widget: "string"
+                hint: "Krótki adres produktu, bez polskich znaków i spacji, np. kola-supermoto-ktm"
+
               - label: "Nazwa produktu"
                 name: "title"
                 widget: "string"
