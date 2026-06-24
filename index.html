@@ -3,213 +3,140 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rimtech Dynamics - Koła motocyklowe</title>
+
+  <title>Rimtech Dynamics - Koła motocyklowe premium</title>
   <meta name="description" content="Koła motocyklowe supermoto i enduro Rimtech Dynamics. Konfiguracje do KTM, Husqvarna, GasGas i innych motocykli." />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #f5f5f5;
-    }
 
-    header {
-      padding: 24px;
-      border-bottom: 1px solid #333;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    nav a {
-      color: #f5f5f5;
-      text-decoration: none;
-      margin-left: 20px;
-    }
-
-    .hero {
-      padding: 80px 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .hero h1 {
-      font-size: 52px;
-      margin-bottom: 20px;
-      line-height: 1.1;
-    }
-
-    .hero p {
-      font-size: 20px;
-      color: #ccc;
-      line-height: 1.5;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 24px;
-      padding: 14px 24px;
-      background: #e63946;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .card {
-      background: #1b1b1b;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 32px;
-    }
-
-    .section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 24px;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .product {
-      background: #1b1b1b;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .product-image {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      background: #222;
-    }
-
-    .product h3 {
-      margin-top: 0;
-    }
-
-    .product p {
-      color: #ccc;
-      line-height: 1.5;
-    }
-
-    .price {
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .availability {
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .compatibility {
-      margin-top: 12px;
-      padding-left: 18px;
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    footer {
-      padding: 32px 24px;
-      border-top: 1px solid #333;
-      text-align: center;
-      color: #aaa;
-    }
-
-    @media (max-width: 800px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .products {
-        grid-template-columns: 1fr;
-      }
-
-      header {
-        display: block;
-      }
-
-      nav {
-        margin-top: 16px;
-      }
-
-      nav a {
-        margin-left: 0;
-        margin-right: 16px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">Rimtech Dynamics</div>
-    <nav>
-      <a href="#produkty">Produkty</a>
-      <a href="#kontakt">Kontakt</a>
-    </nav>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-wrap">
+        <div class="logo-mark">RTD</div>
+        <div class="logo-text">
+          <strong>Rimtech</strong>
+          <span>Dynamics</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="/">Strona główna</a>
+        <a href="#produkty">Produkty</a>
+        <a href="#o-nas">O nas</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </div>
   </header>
 
   <main>
     <section class="hero">
-      <div>
-        <h1 id="hero-title">Koła motocyklowe supermoto i enduro</h1>
-        <p id="hero-description">
-          Konfigurowane zestawy kół do motocykli KTM, Husqvarna, GasGas i innych modeli.
-          Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl.
-        </p>
-        <a class="button" href="#produkty">Zobacz produkty</a>
-      </div>
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow">Rimtech Dynamics</div>
 
-      <div class="card">
-        <h2>Personalizowane zestawy kół</h2>
-        <p>
-          Dobierz kolor piast, kolor obręczy, tarcze, zębatkę oraz konfigurację pod swój model motocykla.
-        </p>
+          <h1>
+            Komponenty
+            <span>klasy premium</span>
+          </h1>
+
+          <p class="hero-description" id="hero-description">
+            Konfigurowane zestawy kół do motocykli KTM, Husqvarna, GasGas i innych modeli.
+            Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button" href="#produkty">Zobacz produkty</a>
+            <a class="button secondary" href="#kontakt">Dobierz zestaw</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-visual-content">
+            <div>
+              <strong>RTD</strong>
+              <span>
+                Koła supermoto i enduro projektowane pod jazdę, wygląd i dopasowanie do konkretnego motocykla.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="features-inner">
+        <div class="feature">
+          <strong>Jakość premium</strong>
+          <span>Materiały i wykończenie dopasowane do wymagających motocykli.</span>
+        </div>
+
+        <div class="feature">
+          <strong>Dopasowane</strong>
+          <span>Konfiguracja pod konkretny model, rocznik i zastosowanie.</span>
+        </div>
+
+        <div class="feature">
+          <strong>Wytrzymałe</strong>
+          <span>Koła do jazdy supermoto, enduro i codziennego użytkowania.</span>
+        </div>
+
+        <div class="feature">
+          <strong>Kontakt przed zakupem</strong>
+          <span>Pomagamy dobrać zestaw przed finalnym zamówieniem.</span>
+        </div>
       </div>
     </section>
 
     <section class="section" id="produkty">
-      <h2>Produkty</h2>
+      <div class="section-header">
+        <div class="section-kicker">Polecane produkty</div>
+        <h2>Nasze produkty</h2>
+      </div>
+
       <div class="products" id="products-list">
         <p>Ładowanie produktów...</p>
       </div>
     </section>
 
-    <section class="section" id="kontakt">
-      <h2>Kontakt</h2>
-      <p>Napisz do nas, aby dobrać komplet kół do Twojego motocykla.</p>
-      <p><strong>E-mail:</strong> <span id="contact-email">kontakt@rimtechdynamics.pl</span></p>
-      <p><strong>Telefon:</strong> <span id="contact-phone">500 555 297</span></p>
+    <section class="brand-strip" id="o-nas">
+      <div class="brand-text">
+        <div class="section-kicker">Rimtech Dynamics</div>
+        <h2>Stonowany styl, techniczny charakter</h2>
+        <p>
+          Tworzymy zestawy kół dla osób, które chcą czegoś lepszego niż przypadkowy komplet z internetu.
+          Bez przesadnego krzyku, bez tandety — liczy się dopasowanie, jakość i wygląd motocykla po złożeniu.
+        </p>
+      </div>
+
+      <div class="brand-logo-large">
+        <div>
+          <strong>RIMTECH</strong>
+          <span>Dynamics</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="kontakt">
+      <div class="contact-box">
+        <div class="contact-card">
+          <h2>Dobierz zestaw</h2>
+          <p>
+            Napisz do nas, jaki masz motocykl, rocznik, kolorystykę i czego oczekujesz.
+            Pomożemy dobrać konfigurację kół przed zakupem.
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <h2>Kontakt</h2>
+          <p><strong>E-mail:</strong> <span id="contact-email">kontakt@rimtechdynamics.pl</span></p>
+          <p><strong>Telefon:</strong> <span id="contact-phone">500 555 297</span></p>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="site-footer">
     Rimtech Dynamics © 2026
   </footer>
 
@@ -221,8 +148,10 @@
         const response = await fetch('/content/home.json');
         const home = await response.json();
 
-        document.getElementById('hero-title').textContent = home.hero_title;
-        document.getElementById('hero-description').textContent = home.hero_description;
+        if (home.hero_description) {
+          document.getElementById('hero-description').textContent = home.hero_description;
+        }
+
         document.getElementById('contact-email').textContent = home.contact_email;
         document.getElementById('contact-phone').textContent = home.contact_phone;
       } catch (error) {
@@ -245,27 +174,32 @@
 
         productsList.innerHTML = products.map(product => {
           const compatibility = Array.isArray(product.compatibility)
-            ? product.compatibility.map(item => `<li>${item}</li>`).join('')
+            ? product.compatibility.slice(0, 5).map(item => `<li>${item}</li>`).join('')
             : '';
-
-          const paymentButton = product.payment_link
-            ? `<a class="button" href="${product.payment_link}" target="_blank" rel="noopener">Kup teraz</a>`
-            : `<a class="button" href="#kontakt">Zapytaj o dostępność</a>`;
 
           const productImage = product.main_image
             ? `<img class="product-image" src="${product.main_image}" alt="${product.title}">`
-            : '';
+            : `<div class="product-image"></div>`;
+
+          const productUrl = product.slug
+            ? `/product.html?slug=${product.slug}`
+            : '#kontakt';
 
           return `
-            <div class="product">
+            <article class="product">
               ${productImage}
-              <h3>${product.title}</h3>
-              <p>${product.short_description}</p>
-              <p class="price">${product.price} ${product.currency}</p>
-              <p class="availability">${product.availability}</p>
-              ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : ''}
-              ${paymentButton}
-            </div>
+
+              <div class="product-content">
+                <h3>${product.title}</h3>
+                <p>${product.short_description}</p>
+                <div class="price">${Number(product.price).toLocaleString('pl-PL')},00 zł</div>
+                <div class="availability">${product.availability}</div>
+
+                ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : ''}
+
+                <a class="button" href="${productUrl}">Zobacz produkt</a>
+              </div>
+            </article>
           `;
         }).join('');
       } catch (error) {
