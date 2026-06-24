@@ -8,69 +8,74 @@ public_folder: "/images/uploads"
 locale: "pl"
 
 collections:
-  - name: "products"
-    label: "Produkty"
-    folder: "products"
-    create: true
-    slug: "{{slug}}"
-    extension: "json"
-    format: "json"
-    fields:
-      - label: "Nazwa produktu"
-        name: "title"
-        widget: "string"
+  - name: "shop"
+    label: "Sklep"
+    files:
+      - name: "products"
+        label: "Produkty"
+        file: "data/products.json"
+        format: "json"
+        fields:
+          - label: "Lista produktów"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.title}} - {{fields.price}} zł"
+            fields:
+              - label: "Nazwa produktu"
+                name: "title"
+                widget: "string"
 
-      - label: "Cena"
-        name: "price"
-        widget: "number"
-        value_type: "int"
-        min: 0
+              - label: "Cena"
+                name: "price"
+                widget: "number"
+                value_type: "int"
+                min: 0
 
-      - label: "Waluta"
-        name: "currency"
-        widget: "string"
-        default: "PLN"
+              - label: "Waluta"
+                name: "currency"
+                widget: "string"
+                default: "PLN"
 
-      - label: "Krótki opis"
-        name: "short_description"
-        widget: "text"
+              - label: "Krótki opis"
+                name: "short_description"
+                widget: "text"
 
-      - label: "Pełny opis"
-        name: "description"
-        widget: "markdown"
+              - label: "Pełny opis"
+                name: "description"
+                widget: "markdown"
 
-      - label: "Dostępność"
-        name: "availability"
-        widget: "select"
-        options:
-          - "Dostępny"
-          - "Na zamówienie"
-          - "Brak w magazynie"
-        default: "Na zamówienie"
+              - label: "Dostępność"
+                name: "availability"
+                widget: "select"
+                options:
+                  - "Dostępny"
+                  - "Na zamówienie"
+                  - "Brak w magazynie"
+                default: "Na zamówienie"
 
-      - label: "Zdjęcie główne"
-        name: "main_image"
-        widget: "image"
-        required: false
+              - label: "Zdjęcie główne"
+                name: "main_image"
+                widget: "image"
+                required: false
 
-      - label: "Kompatybilność"
-        name: "compatibility"
-        widget: "list"
-        required: false
-        field:
-          label: "Model motocykla"
-          name: "model"
-          widget: "string"
+              - label: "Kompatybilność"
+                name: "compatibility"
+                widget: "list"
+                required: false
+                field:
+                  label: "Model motocykla"
+                  name: "model"
+                  widget: "string"
 
-      - label: "Link do płatności"
-        name: "payment_link"
-        widget: "string"
-        required: false
+              - label: "Link do płatności"
+                name: "payment_link"
+                widget: "string"
+                required: false
 
-      - label: "Produkt aktywny"
-        name: "active"
-        widget: "boolean"
-        default: true
+              - label: "Produkt aktywny"
+                name: "active"
+                widget: "boolean"
+                default: true
 
   - name: "pages"
     label: "Treści strony"
