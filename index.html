@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Rimtech Dynamics - Koła motocyklowe premium</title>
-  <meta name="description" content="Koła motocyklowe supermoto i enduro Rimtech Dynamics. Konfiguracje do KTM, Husqvarna, GasGas i innych motocykli." />
+  <title>Rimtech Dynamics - Koła do supermoto</title>
+  <meta name="description" content="Koła do supermoto. Zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli." />
 
   <link rel="stylesheet" href="/style.css" />
 </head>
@@ -13,7 +13,11 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="/" class="logo-wrap">
-        <div class="logo-mark">RTD</div>
+        <img
+          src="/image.png"
+          alt="RTD"
+          style="height: 44px; width: auto; display: block;"
+        />
         <div class="logo-text">
           <strong>Rimtech</strong>
           <span>Dynamics</span>
@@ -35,19 +39,15 @@
         <div>
           <div class="eyebrow">Rimtech Dynamics</div>
 
-          <h1>
-            Komponenty
-            <span>klasy premium</span>
-          </h1>
+          <h1>Koła do supermoto</h1>
 
-          <p class="hero-description" id="hero-description">
-            Konfigurowane zestawy kół do motocykli KTM, Husqvarna, GasGas i innych modeli.
-            Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl.
+          <p class="hero-description">
+            zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli. Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl
           </p>
 
           <div class="hero-actions">
             <a class="button" href="#produkty">Zobacz produkty</a>
-            <a class="button secondary" href="#kontakt">Dobierz zestaw</a>
+            <a class="button secondary" href="#kontakt">Skontaktuj się</a>
           </div>
         </div>
 
@@ -56,7 +56,7 @@
             <div>
               <strong>RTD</strong>
               <span>
-                Koła supermoto i enduro projektowane pod jazdę, wygląd i dopasowanie do konkretnego motocykla.
+                Koła do supermoto dla motocykli KTM, Husqvarna, Beta, GasGas i innych modeli.
               </span>
             </div>
           </div>
@@ -67,23 +67,23 @@
     <section class="features">
       <div class="features-inner">
         <div class="feature">
-          <strong>Jakość premium</strong>
-          <span>Materiały i wykończenie dopasowane do wymagających motocykli.</span>
+          <strong>Do supermoto</strong>
+          <span>Zestawy kół przygotowane pod motocykle supermoto i projekty indywidualne.</span>
         </div>
 
         <div class="feature">
-          <strong>Dopasowane</strong>
-          <span>Konfiguracja pod konkretny model, rocznik i zastosowanie.</span>
+          <strong>Dopasowanie</strong>
+          <span>Dobór pod konkretny model motocykla, rocznik i konfigurację.</span>
         </div>
 
         <div class="feature">
-          <strong>Wytrzymałe</strong>
-          <span>Koła do jazdy supermoto, enduro i codziennego użytkowania.</span>
+          <strong>Piasty CNC</strong>
+          <span>Starannie wykonane komponenty z naciskiem na wygląd i trwałość.</span>
         </div>
 
         <div class="feature">
-          <strong>Kontakt przed zakupem</strong>
-          <span>Pomagamy dobrać zestaw przed finalnym zamówieniem.</span>
+          <strong>Kontakt</strong>
+          <span>Pomożemy dobrać zestaw jeszcze przed zakupem.</span>
         </div>
       </div>
     </section>
@@ -102,10 +102,10 @@
     <section class="brand-strip" id="o-nas">
       <div class="brand-text">
         <div class="section-kicker">Rimtech Dynamics</div>
-        <h2>Stonowany styl, techniczny charakter</h2>
+        <h2>Koła, które zmieniają wygląd motocykla</h2>
         <p>
-          Tworzymy zestawy kół dla osób, które chcą czegoś lepszego niż przypadkowy komplet z internetu.
-          Bez przesadnego krzyku, bez tandety — liczy się dopasowanie, jakość i wygląd motocykla po złożeniu.
+          Tworzymy zestawy kół dla osób, które chcą dobrze wyglądającego i dopasowanego motocykla.
+          Stawiamy na techniczny charakter, stonowany styl i jakość, która ma sens na gotowej maszynie.
         </p>
       </div>
 
@@ -148,14 +148,15 @@
         const response = await fetch('/content/home.json');
         const home = await response.json();
 
-        if (home.hero_description) {
-          document.getElementById('hero-description').textContent = home.hero_description;
+        if (home.contact_email) {
+          document.getElementById('contact-email').textContent = home.contact_email;
         }
 
-        document.getElementById('contact-email').textContent = home.contact_email;
-        document.getElementById('contact-phone').textContent = home.contact_phone;
+        if (home.contact_phone) {
+          document.getElementById('contact-phone').textContent = home.contact_phone;
+        }
       } catch (error) {
-        console.error('Nie udało się załadować treści strony głównej:', error);
+        console.error('Nie udało się załadować treści kontaktowych:', error);
       }
     }
 
