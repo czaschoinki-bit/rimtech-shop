@@ -1,14 +1,9 @@
 {
   "products": [
     {
-      "slug": "kola-supermoto-ktm",
-      "title": "Komplet kół Supermoto KTM",
+      "active": true,
       "price": 2599,
-      "currency": "PLN",
-      "short_description": "Komplet kół 17 cali do KTM EXC / EXC-F.",
-      "description": "Komplet kół supermoto 17 cali do motocykli KTM EXC oraz EXC-F. Możliwość doboru koloru piast, obręczy, tarcz oraz zębatki pod konkretny model motocykla.",
-      "availability": "Na zamówienie",
-      "main_image": "/images/uploads/kola.jpg",
+      "slug": "kola-supermoto-ktm",
       "compatibility": [
         "KTM EXC 125",
         "KTM EXC 250",
@@ -17,8 +12,13 @@
         "KTM EXC-F 350",
         "KTM EXC-F 450"
       ],
+      "currency": "PLN",
       "payment_link": "",
-      "active": true
+      "main_image": "/images/uploads/whatsapp-image-2026-06-24-at-13.38.59.jpeg",
+      "title": "Komplet kół Supermoto KTM",
+      "short_description": "Komplet kół 17 cali do KTM EXC / EXC-F.",
+      "availability": "Na zamówienie",
+      "description": "Komplet kół supermoto 17 cali do motocykli KTM EXC oraz EXC-F. Możliwość doboru koloru piast, obręczy, tarcz oraz zębatki pod konkretny model motocykla."
     }
   ]
 }
