@@ -13,11 +13,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="/" class="logo-wrap">
-        <img
-          src="/image.png"
-          alt="RTD"
-          style="height: 44px; width: auto; display: block;"
-        />
+        <div class="rtd-logo-text">RTD</div>
         <div class="logo-text">
           <strong>Rimtech</strong>
           <span>Dynamics</span>
@@ -41,13 +37,13 @@
 
           <h1>Koła do supermoto</h1>
 
-          <p class="hero-description">
+          <p class="hero-description" id="hero-description">
             zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli. Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl
           </p>
 
           <div class="hero-actions">
-            <a class="button" href="#produkty">Zobacz produkty</a>
-            <a class="button secondary" href="#kontakt">Skontaktuj się</a>
+            <a class="button" id="hero-primary-button" href="#produkty">Zobacz produkty</a>
+            <a class="button secondary" id="hero-secondary-button" href="#kontakt">Skontaktuj się</a>
           </div>
         </div>
 
@@ -67,31 +63,33 @@
     <section class="features">
       <div class="features-inner">
         <div class="feature">
-          <strong>Do supermoto</strong>
-          <span>Zestawy kół przygotowane pod motocykle supermoto i projekty indywidualne.</span>
+          <strong id="feature-1-title">Do supermoto</strong>
+          <span id="feature-1-text">Zestawy kół przygotowane pod motocykle supermoto i projekty indywidualne.</span>
         </div>
 
         <div class="feature">
-          <strong>Dopasowanie</strong>
-          <span>Dobór pod konkretny model motocykla, rocznik i konfigurację.</span>
+          <strong id="feature-2-title">Dopasowanie</strong>
+          <span id="feature-2-text">Dobór pod konkretny model motocykla, rocznik i konfigurację.</span>
         </div>
 
         <div class="feature">
-          <strong>Piasty CNC</strong>
-          <span>Starannie wykonane komponenty z naciskiem na wygląd i trwałość.</span>
+          <strong id="feature-3-title">Piasty CNC</strong>
+          <span id="feature-3-text">Starannie wykonane komponenty z naciskiem na wygląd i trwałość.</span>
         </div>
 
         <div class="feature">
-          <strong>Kontakt</strong>
-          <span>Pomożemy dobrać zestaw jeszcze przed zakupem.</span>
+          <strong id="feature-4-title">Kontakt</strong>
+          <span id="feature-4-text">Pomożemy dobrać zestaw jeszcze przed zakupem.</span>
         </div>
       </div>
     </section>
 
     <section class="section" id="produkty">
       <div class="section-header">
-        <div class="section-kicker">Polecane produkty</div>
-        <h2>Nasze produkty</h2>
+        <div>
+          <div class="section-kicker" id="products-kicker">Polecane produkty</div>
+          <h2 id="products-title">Nasze produkty</h2>
+        </div>
       </div>
 
       <div class="products" id="products-list">
@@ -101,9 +99,9 @@
 
     <section class="brand-strip" id="o-nas">
       <div class="brand-text">
-        <div class="section-kicker">Rimtech Dynamics</div>
-        <h2>Koła, które zmieniają wygląd motocykla</h2>
-        <p>
+        <div class="section-kicker" id="about-kicker">Rimtech Dynamics</div>
+        <h2 id="about-title">Koła, które zmieniają wygląd motocykla</h2>
+        <p id="about-text">
           Tworzymy zestawy kół dla osób, które chcą dobrze wyglądającego i dopasowanego motocykla.
           Stawiamy na techniczny charakter, stonowany styl i jakość, która ma sens na gotowej maszynie.
         </p>
@@ -120,8 +118,8 @@
     <section class="contact-section" id="kontakt">
       <div class="contact-box">
         <div class="contact-card">
-          <h2>Dobierz zestaw</h2>
-          <p>
+          <h2 id="contact-title">Dobierz zestaw</h2>
+          <p id="contact-description">
             Napisz do nas, jaki masz motocykl, rocznik, kolorystykę i czego oczekujesz.
             Pomożemy dobrać konfigurację kół przed zakupem.
           </p>
@@ -143,20 +141,42 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
   <script>
+    function setText(id, value) {
+      const element = document.getElementById(id);
+      if (element && value) {
+        element.textContent = value;
+      }
+    }
+
     async function loadHomeContent() {
       try {
         const response = await fetch('/content/home.json');
         const home = await response.json();
 
-        if (home.contact_email) {
-          document.getElementById('contact-email').textContent = home.contact_email;
-        }
+        setText('hero-description', home.hero_description);
+        setText('contact-email', home.contact_email);
+        setText('contact-phone', home.contact_phone);
 
-        if (home.contact_phone) {
-          document.getElementById('contact-phone').textContent = home.contact_phone;
-        }
+        setText('products-kicker', home.products_kicker);
+        setText('products-title', home.products_title);
+
+        setText('about-kicker', home.about_kicker);
+        setText('about-title', home.about_title);
+        setText('about-text', home.about_text);
+
+        setText('contact-title', home.contact_title);
+        setText('contact-description', home.contact_description);
+
+        setText('feature-1-title', home.feature_1_title);
+        setText('feature-1-text', home.feature_1_text);
+        setText('feature-2-title', home.feature_2_title);
+        setText('feature-2-text', home.feature_2_text);
+        setText('feature-3-title', home.feature_3_title);
+        setText('feature-3-text', home.feature_3_text);
+        setText('feature-4-title', home.feature_4_title);
+        setText('feature-4-text', home.feature_4_text);
       } catch (error) {
-        console.error('Nie udało się załadować treści kontaktowych:', error);
+        console.error('Nie udało się załadować treści strony głównej:', error);
       }
     }
 
