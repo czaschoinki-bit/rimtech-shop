@@ -1,0 +1,29 @@
+{
+  "documents": [
+    {
+      "slug": "regulamin",
+      "title": "Regulamin sklepu",
+      "content": "To jest robocza treść regulaminu sklepu Rimtech Dynamics. Przed uruchomieniem sprzedaży należy uzupełnić regulamin o pełne dane sprzedawcy, zasady składania zamówień, płatności, dostawy, reklamacji, odstąpienia od umowy oraz odpowiedzialności.\n\nTen dokument powinien zostać sprawdzony przed rozpoczęciem sprzedaży."
+    },
+    {
+      "slug": "polityka-prywatnosci",
+      "title": "Polityka prywatności",
+      "content": "To jest robocza treść polityki prywatności. Dokument powinien zawierać informacje o administratorze danych, celach przetwarzania danych, podstawach prawnych, okresie przechowywania danych, odbiorcach danych oraz prawach użytkownika.\n\nPrzed uruchomieniem sklepu należy uzupełnić ten dokument o pełne dane firmy."
+    },
+    {
+      "slug": "polityka-cookies",
+      "title": "Polityka cookies",
+      "content": "To jest robocza treść polityki cookies. Dokument powinien wyjaśniać, jakie pliki cookies są używane na stronie, w jakim celu oraz jak użytkownik może nimi zarządzać.\n\nJeżeli strona będzie korzystać z narzędzi analitycznych lub marketingowych, należy dodać odpowiedni baner zgód cookies."
+    },
+    {
+      "slug": "zwroty-reklamacje",
+      "title": "Zwroty i reklamacje",
+      "content": "To jest robocza treść zasad zwrotów i reklamacji. Dokument powinien określać zasady składania reklamacji, czas odpowiedzi, adres kontaktowy oraz informacje o prawie odstąpienia od umowy, jeżeli ma zastosowanie."
+    },
+    {
+      "slug": "dostawa-platnosci",
+      "title": "Dostawa i płatności",
+      "content": "To jest robocza treść informacji o dostawie i płatnościach. Dokument powinien zawierać dostępne metody płatności, sposoby dostawy, orientacyjny czas realizacji oraz informacje o kosztach wysyłki."
+    }
+  ]
+}
