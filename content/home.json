@@ -1,30 +1,23 @@
 {
-  "hero_description": "zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli. Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl",
-  "hero_primary_button": "Zobacz produkty",
-  "hero_secondary_button": "Skontaktuj się",
-
   "feature_1_title": "Do supermoto",
-  "feature_1_text": "Zestawy kół przygotowane pod motocykle supermoto i projekty indywidualne.",
-
+  "feature_4_text": "Pomożemy dobrać zestaw jeszcze przed zakupem.",
+  "hero_secondary_button": "Skontaktuj się",
+  "feature_3_text": "Starannie wykonane komponenty z naciskiem na wygląd i trwałość.",
   "feature_2_title": "Dopasowanie",
   "feature_2_text": "Dobór pod konkretny model motocykla, rocznik i konfigurację.",
-
   "feature_3_title": "Piasty CNC",
-  "feature_3_text": "Starannie wykonane komponenty z naciskiem na wygląd i trwałość.",
-
+  "feature_1_text": "Zestawy kół przygotowane pod motocykle supermoto i projekty indywidualne.",
   "feature_4_title": "Kontakt",
-  "feature_4_text": "Pomożemy dobrać zestaw jeszcze przed zakupem.",
-
-  "products_kicker": "Polecane produkty",
-  "products_title": "Nasze produkty",
-
   "about_kicker": "Rimtech Dynamics",
   "about_title": "Koła, które zmieniają wygląd motocykla",
-  "about_text": "Tworzymy zestawy kół dla osób, które chcą dobrze wyglądającego i dopasowanego motocykla. Stawiamy na techniczny charakter, stonowany styl i jakość, która ma sens na gotowej maszynie.",
-
+  "products_kicker": "Polecane produkty",
+  "contact_phone": "500 555 297",
+  "hero_title": "witamy w dupie ",
+  "hero_primary_button": "Zobacz produkty",
+  "hero_description": "zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli. Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl",
   "contact_title": "Dobierz zestaw",
   "contact_description": "Napisz do nas, jaki masz motocykl, rocznik, kolorystykę i czego oczekujesz. Pomożemy dobrać konfigurację kół przed zakupem.",
-
   "contact_email": "kontakt@rimtechdynamics.pl",
-  "contact_phone": "500 555 297"
+  "products_title": "Nasze produkty",
+  "about_text": "Tworzymy zestawy kół dla osób, które chcą dobrze wyglądającego i dopasowanego motocykla. Stawiamy na techniczny charakter, stonowany styl i jakość, która ma sens na gotowej maszynie."
 }
