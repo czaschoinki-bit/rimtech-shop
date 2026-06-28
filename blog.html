@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Blog - Rimtech Dynamics</title>
+  <meta name="description" content="Poradniki Rimtech Dynamics o kołach supermoto, dopasowaniu zestawów i konfiguracji motocykli." />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-wrap">
+        <img
+          src="/images/logo-rtd.png"
+          alt="RTD Rimtech Dynamics"
+          class="site-logo"
+        />
+
+        <div class="logo-text">
+          <strong>Rimtech</strong>
+          <span>Dynamics</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="/">Strona główna</a>
+        <a href="/#produkty">Produkty</a>
+        <a href="/o-nas.html">O nas</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Poradniki</div>
+          <h2>Blog Rimtech Dynamics</h2>
+        </div>
+      </div>
+
+      <div id="blog-list" class="products">
+        <p>Ładowanie wpisów...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="/legal.html?doc=regulamin">Regulamin</a> ·
+    <a href="/legal.html?doc=polityka-prywatnosci">Polityka prywatności</a> ·
+    <a href="/legal.html?doc=polityka-cookies">Cookies</a> ·
+    <a href="/legal.html?doc=zwroty-reklamacje">Zwroty i reklamacje</a> ·
+    <a href="/legal.html?doc=dostawa-platnosci">Dostawa i płatności</a>
+  </footer>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <script>
+    const blogPosts = [
+      {
+        title: "Jak dobrać koła supermoto do KTM EXC?",
+        slug: "jak-dobrac-kola-supermoto-do-ktm",
+        date: "2026-06-28",
+        excerpt: "Krótki poradnik, na co zwrócić uwagę przy wyborze kół supermoto do motocykli KTM EXC i EXC-F.",
+        image: "",
+        active: true
+      }
+    ];
+
+    function loadBlogList() {
+      const container = document.getElementById('blog-list');
+      const activePosts = blogPosts.filter(post => post.active);
+
+      if (!activePosts.length) {
+        container.innerHTML = '<p>Brak wpisów blogowych.</p>';
+        return;
+      }
+
+      container.innerHTML = activePosts.map(post => {
+        const image = post.image
+          ? `<img class="product-image" src="${post.image}" alt="${post.title}">`
+          : `<div class="product-image"></div>`;
+
+        return `
+          <article class="product">
+            ${image}
+
+            <div class="product-content">
+              <div class="availability">${new Date(post.date).toLocaleDateString('pl-PL')}</div>
+              <h3>${post.title}</h3>
+              <p>${post.excerpt}</p>
+              <a class="button" href="/blog-post.html?slug=${post.slug}">Czytaj więcej</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    loadBlogList();
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
