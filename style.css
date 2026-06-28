@@ -149,7 +149,7 @@ img {
       rgba(7, 8, 9, 0.28) 78%,
       rgba(7, 8, 9, 0.56) 100%
     ),
-    url("/images/hero-supermoto.jpg");
+    url("/images/hero-supermoto.jpg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
