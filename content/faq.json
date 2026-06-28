@@ -1,0 +1,29 @@
+{
+  "title": "Najczęściej zadawane pytania",
+  "items": [
+    {
+      "question": "Czy koła będą pasować do mojego motocykla?",
+      "answer": "Przed zakupem zawsze warto potwierdzić model, rocznik i wersję motocykla. Zestawy dobieramy pod konkretne motocykle, między innymi KTM, Husqvarna, Beta, GasGas i inne modele."
+    },
+    {
+      "question": "Czy zestaw jest gotowy do montażu?",
+      "answer": "To zależy od wybranej konfiguracji. Przy zamówieniu ustalamy, czy zestaw ma zawierać same koła, czy również tarcze, zębatkę, dystanse lub inne elementy potrzebne do montażu."
+    },
+    {
+      "question": "Czy mogę wybrać kolor piast i obręczy?",
+      "answer": "Tak, w zależności od dostępności można dobrać kolor piast oraz obręczy. Najlepiej skontaktować się przed zakupem i potwierdzić aktualne możliwości konfiguracji."
+    },
+    {
+      "question": "Jaki jest czas realizacji zamówienia?",
+      "answer": "Czas realizacji zależy od dostępności danego zestawu oraz konfiguracji. Produkty dostępne od ręki mogą być wysłane szybciej, a zestawy indywidualne wymagają wcześniejszego ustalenia terminu."
+    },
+    {
+      "question": "Czy wystawiacie fakturę?",
+      "answer": "Tak, po podaniu danych do faktury możemy wystawić dokument sprzedaży zgodnie z obowiązującymi zasadami."
+    },
+    {
+      "question": "Czy można zamówić zestaw pod indywidualny projekt?",
+      "answer": "Tak, możemy dobrać zestaw pod konkretny motocykl, kolorystykę i oczekiwania klienta. W takim przypadku najlepiej skontaktować się przed zakupem."
+    }
+  ]
+}
