@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Produkt - Rimtech Dynamics</title>
+  <meta name="description" content="Szczegóły produktu Rimtech Dynamics - koła do supermoto." />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-wrap">
+        <img
+          src="/image.png"
+          alt="RTD"
+          style="height: 44px; width: auto; display: block;"
+        />
+        <div class="logo-text">
+          <strong>Rimtech</strong>
+          <span>Dynamics</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="/">Strona główna</a>
+        <a href="/#produkty">Produkty</a>
+        <a href="/#o-nas">O nas</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div id="product-details">
+        <p>Ładowanie produktu...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Rimtech Dynamics © 2026
+  </footer>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <script>
+    function getSlugFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('slug');
+    }
+
+    function formatPrice(price) {
+      return Number(price).toLocaleString('pl-PL') + ',00 zł';
+    }
+
+    async function loadProduct() {
+      const container = document.getElementById('product-details');
+      const slug = getSlugFromUrl();
+
+      if (!slug) {
+        container.innerHTML = `
+          <div class="contact-card">
+            <h2>Nie znaleziono produktu</h2>
+            <p>Brakuje identyfikatora produktu w adresie strony.</p>
+            <a class="button" href="/#produkty">Wróć do produktów</a>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const response = await fetch('/data/products.json');
+        const data = await response.json();
+
+        const product = data.products.find(item => item.slug === slug && item.active);
+
+        if (!product) {
+          container.innerHTML = `
+            <div class="contact-card">
+              <h2>Nie znaleziono produktu</h2>
+              <p>Ten produkt nie istnieje albo nie jest aktualnie aktywny.</p>
+              <a class="button" href="/#produkty">Wróć do produktów</a>
+            </div>
+          `;
+          return;
+        }
+
+        document.title = product.title + ' - Rimtech Dynamics';
+
+        const compatibility = Array.isArray(product.compatibility)
+          ? product.compatibility.map(item => `<li>${item}</li>`).join('')
+          : '';
+
+        const productImage = product.main_image
+          ? `<img class="product-page-image" src="${product.main_image}" alt="${product.title}">`
+          : `<div class="product-page-image"></div>`;
+
+        const paymentButton = product.payment_link
+          ? `<a class="button" href="${product.payment_link}" target="_blank" rel="noopener">Kup teraz</a>`
+          : `<a class="button" href="/#kontakt">Zapytaj o dostępność</a>`;
+
+        container.innerHTML = `
+          <div class="product-page">
+            <div class="product-page-gallery">
+              ${productImage}
+            </div>
+
+            <div class="product-page-info">
+              <div class="section-kicker">Rimtech Dynamics</div>
+              <h1>${product.title}</h1>
+              <p class="product-page-short">${product.short_description}</p>
+
+              <div class="product-page-price">${formatPrice(product.price)}</div>
+              <div class="availability">${product.availability}</div>
+
+              <div class="product-page-actions">
+                ${paymentButton}
+                <a class="button secondary" href="/#kontakt">Dobierz zestaw</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-page-extra">
+            <div class="contact-card">
+              <h2>Opis produktu</h2>
+              <p>${product.description}</p>
+            </div>
+
+            <div class="contact-card">
+              <h2>Kompatybilność</h2>
+              ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : '<p>Skontaktuj się z nami w celu potwierdzenia dopasowania.</p>'}
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Nie udało się załadować produktu:', error);
+        container.innerHTML = `
+          <div class="contact-card">
+            <h2>Błąd ładowania produktu</h2>
+            <p>Nie udało się załadować danych produktu. Spróbuj ponownie później.</p>
+            <a class="button" href="/#produkty">Wróć do produktów</a>
+          </div>
+        `;
+      }
+    }
+
+    loadProduct();
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
