@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Dokumenty prawne - Rimtech Dynamics</title>
+  <meta name="description" content="Regulamin, polityka prywatności, cookies, zwroty, reklamacje oraz dostawa i płatności Rimtech Dynamics." />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-wrap">
+        <img
+          src="/images/logo-rtd.png"
+          alt="RTD Rimtech Dynamics"
+          class="site-logo"
+        />
+
+        <div class="logo-text">
+          <strong>Rimtech</strong>
+          <span>Dynamics</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="/">Strona główna</a>
+        <a href="/#produkty">Produkty</a>
+        <a href="/o-nas.html">O nas</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Rimtech Dynamics</div>
+          <h2 id="legal-title">Dokumenty prawne</h2>
+        </div>
+      </div>
+
+      <div id="legal-content">
+        <p>Ładowanie dokumentu...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="/legal.html?doc=regulamin">Regulamin</a> ·
+    <a href="/legal.html?doc=polityka-prywatnosci">Polityka prywatności</a> ·
+    <a href="/legal.html?doc=polityka-cookies">Cookies</a> ·
+    <a href="/legal.html?doc=zwroty-reklamacje">Zwroty i reklamacje</a> ·
+    <a href="/legal.html?doc=dostawa-platnosci">Dostawa i płatności</a>
+  </footer>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <script>
+    function getDocumentSlug() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('doc') || 'regulamin';
+    }
+
+    async function loadLegalDocument() {
+      const title = document.getElementById('legal-title');
+      const content = document.getElementById('legal-content');
+      const slug = getDocumentSlug();
+
+      try {
+        const response = await fetch('/content/legal.json');
+        const data = await response.json();
+
+        const documentData = data.documents.find(item => item.slug === slug);
+
+        if (!documentData) {
+          content.innerHTML = `
+            <div class="contact-card">
+              <h2>Nie znaleziono dokumentu</h2>
+              <p>Wybrany dokument nie istnieje.</p>
+              <a class="button" href="/legal.html?doc=regulamin">Przejdź do regulaminu</a>
+            </div>
+          `;
+          return;
+        }
+
+        document.title = documentData.title + ' - Rimtech Dynamics';
+        title.textContent = documentData.title;
+
+        content.innerHTML = `
+          <div class="contact-card legal-document">
+            <p>${documentData.content.replace(/\n/g, '<br>')}</p>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Nie udało się załadować dokumentu:', error);
+        content.innerHTML = `
+          <div class="contact-card">
+            <h2>Błąd ładowania</h2>
+            <p>Nie udało się załadować dokumentu.</p>
+          </div>
+        `;
+      }
+    }
+
+    loadLegalDocument();
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
