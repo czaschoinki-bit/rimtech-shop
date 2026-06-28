@@ -30,11 +30,25 @@ collections:
                 name: "title"
                 widget: "string"
 
+              - label: "Etykieta produktu"
+                name: "badge"
+                widget: "string"
+                required: false
+                hint: "Np. Bestseller, Nowość, Na zamówienie"
+
               - label: "Cena"
                 name: "price"
                 widget: "number"
                 value_type: "int"
                 min: 0
+
+              - label: "Cena poprzednia"
+                name: "old_price"
+                widget: "number"
+                value_type: "int"
+                required: false
+                min: 0
+                hint: "Opcjonalnie, jeśli produkt ma promocję"
 
               - label: "Waluta"
                 name: "currency"
@@ -63,6 +77,15 @@ collections:
                 widget: "image"
                 required: false
 
+              - label: "Galeria zdjęć"
+                name: "gallery"
+                widget: "list"
+                required: false
+                field:
+                  label: "Zdjęcie"
+                  name: "image"
+                  widget: "image"
+
               - label: "Kompatybilność"
                 name: "compatibility"
                 widget: "list"
@@ -72,10 +95,38 @@ collections:
                   name: "model"
                   widget: "string"
 
+              - label: "Kolory piast"
+                name: "hub_colors"
+                widget: "list"
+                required: false
+                field:
+                  label: "Kolor piasty"
+                  name: "color"
+                  widget: "string"
+
+              - label: "Kolory obręczy"
+                name: "rim_colors"
+                widget: "list"
+                required: false
+                field:
+                  label: "Kolor obręczy"
+                  name: "color"
+                  widget: "string"
+
+              - label: "Co zawiera zestaw"
+                name: "included"
+                widget: "list"
+                required: false
+                field:
+                  label: "Element zestawu"
+                  name: "item"
+                  widget: "string"
+
               - label: "Link do płatności"
                 name: "payment_link"
                 widget: "string"
                 required: false
+                hint: "Tutaj później wkleisz link ze Stripe / bramki płatniczej"
 
               - label: "Produkt aktywny"
                 name: "active"
@@ -90,13 +141,99 @@ collections:
         file: "content/home.json"
         format: "json"
         fields:
-          - label: "Główny nagłówek"
-            name: "hero_title"
-            widget: "string"
-
-          - label: "Tekst pod nagłówkiem"
+          - label: "Główny opis pod nagłówkiem"
             name: "hero_description"
             widget: "text"
+
+          - label: "Przycisk główny"
+            name: "hero_primary_button"
+            widget: "string"
+            required: false
+            default: "Zobacz produkty"
+
+          - label: "Przycisk drugi"
+            name: "hero_secondary_button"
+            widget: "string"
+            required: false
+            default: "Skontaktuj się"
+
+          - label: "Zaleta 1 - tytuł"
+            name: "feature_1_title"
+            widget: "string"
+            required: false
+
+          - label: "Zaleta 1 - tekst"
+            name: "feature_1_text"
+            widget: "text"
+            required: false
+
+          - label: "Zaleta 2 - tytuł"
+            name: "feature_2_title"
+            widget: "string"
+            required: false
+
+          - label: "Zaleta 2 - tekst"
+            name: "feature_2_text"
+            widget: "text"
+            required: false
+
+          - label: "Zaleta 3 - tytuł"
+            name: "feature_3_title"
+            widget: "string"
+            required: false
+
+          - label: "Zaleta 3 - tekst"
+            name: "feature_3_text"
+            widget: "text"
+            required: false
+
+          - label: "Zaleta 4 - tytuł"
+            name: "feature_4_title"
+            widget: "string"
+            required: false
+
+          - label: "Zaleta 4 - tekst"
+            name: "feature_4_text"
+            widget: "text"
+            required: false
+
+          - label: "Sekcja produktów - mały napis"
+            name: "products_kicker"
+            widget: "string"
+            required: false
+            default: "Polecane produkty"
+
+          - label: "Sekcja produktów - tytuł"
+            name: "products_title"
+            widget: "string"
+            required: false
+            default: "Nasze produkty"
+
+          - label: "O nas - mały napis"
+            name: "about_kicker"
+            widget: "string"
+            required: false
+            default: "Rimtech Dynamics"
+
+          - label: "O nas - tytuł"
+            name: "about_title"
+            widget: "string"
+            required: false
+
+          - label: "O nas - tekst"
+            name: "about_text"
+            widget: "text"
+            required: false
+
+          - label: "Kontakt - tytuł"
+            name: "contact_title"
+            widget: "string"
+            required: false
+
+          - label: "Kontakt - opis"
+            name: "contact_description"
+            widget: "text"
+            required: false
 
           - label: "E-mail kontaktowy"
             name: "contact_email"
@@ -105,3 +242,154 @@ collections:
           - label: "Telefon kontaktowy"
             name: "contact_phone"
             widget: "string"
+
+      - name: "about"
+        label: "O nas"
+        file: "content/about.json"
+        format: "json"
+        fields:
+          - label: "Tytuł strony"
+            name: "title"
+            widget: "string"
+
+          - label: "Krótki wstęp"
+            name: "intro"
+            widget: "text"
+
+          - label: "Główna treść"
+            name: "content"
+            widget: "markdown"
+
+          - label: "Zdjęcie / grafika"
+            name: "image"
+            widget: "image"
+            required: false
+
+      - name: "faq"
+        label: "FAQ"
+        file: "content/faq.json"
+        format: "json"
+        fields:
+          - label: "Tytuł strony"
+            name: "title"
+            widget: "string"
+            default: "Najczęściej zadawane pytania"
+
+          - label: "Lista pytań"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - label: "Pytanie"
+                name: "question"
+                widget: "string"
+
+              - label: "Odpowiedź"
+                name: "answer"
+                widget: "text"
+
+      - name: "settings"
+        label: "Ustawienia sklepu"
+        file: "content/settings.json"
+        format: "json"
+        fields:
+          - label: "Nazwa marki"
+            name: "brand_name"
+            widget: "string"
+            default: "Rimtech Dynamics"
+
+          - label: "E-mail"
+            name: "email"
+            widget: "string"
+
+          - label: "Telefon"
+            name: "phone"
+            widget: "string"
+
+          - label: "Adres"
+            name: "address"
+            widget: "text"
+            required: false
+
+          - label: "NIP"
+            name: "nip"
+            widget: "string"
+            required: false
+
+          - label: "Facebook"
+            name: "facebook_url"
+            widget: "string"
+            required: false
+
+          - label: "Instagram"
+            name: "instagram_url"
+            widget: "string"
+            required: false
+
+          - label: "Tekst w stopce"
+            name: "footer_text"
+            widget: "string"
+            required: false
+            default: "Rimtech Dynamics © 2026"
+
+      - name: "legal"
+        label: "Dokumenty prawne"
+        file: "content/legal.json"
+        format: "json"
+        fields:
+          - label: "Dokumenty"
+            name: "documents"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - label: "Slug dokumentu"
+                name: "slug"
+                widget: "string"
+                hint: "Np. regulamin, polityka-prywatnosci, polityka-cookies"
+
+              - label: "Tytuł dokumentu"
+                name: "title"
+                widget: "string"
+
+              - label: "Treść dokumentu"
+                name: "content"
+                widget: "markdown"
+
+  - name: "blog"
+    label: "Blog / poradniki"
+    folder: "blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Tytuł wpisu"
+        name: "title"
+        widget: "string"
+
+      - label: "Slug wpisu"
+        name: "slug"
+        widget: "string"
+        hint: "Np. jak-dobrac-kola-supermoto-do-ktm"
+
+      - label: "Data publikacji"
+        name: "date"
+        widget: "datetime"
+
+      - label: "Krótki opis"
+        name: "excerpt"
+        widget: "text"
+
+      - label: "Zdjęcie główne"
+        name: "image"
+        widget: "image"
+        required: false
+
+      - label: "Wpis aktywny"
+        name: "active"
+        widget: "boolean"
+        default: true
+
+      - label: "Treść wpisu"
+        name: "body"
+        widget: "markdown"
