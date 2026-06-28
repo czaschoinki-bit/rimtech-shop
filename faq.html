@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FAQ - Rimtech Dynamics</title>
+  <meta name="description" content="Najczęściej zadawane pytania dotyczące kół supermoto Rimtech Dynamics." />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-wrap">
+        <img
+          src="/images/logo-rtd.png"
+          alt="RTD Rimtech Dynamics"
+          class="site-logo"
+        />
+
+        <div class="logo-text">
+          <strong>Rimtech</strong>
+          <span>Dynamics</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="/">Strona główna</a>
+        <a href="/#produkty">Produkty</a>
+        <a href="/o-nas.html">O nas</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Pomoc</div>
+          <h2 id="faq-title">Najczęściej zadawane pytania</h2>
+        </div>
+      </div>
+
+      <div id="faq-list" class="faq-list">
+        <p>Ładowanie pytań...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Rimtech Dynamics © 2026
+  </footer>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <script>
+    async function loadFaq() {
+      const title = document.getElementById('faq-title');
+      const list = document.getElementById('faq-list');
+
+      try {
+        const response = await fetch('/content/faq.json');
+        const faq = await response.json();
+
+        document.title = faq.title + ' - Rimtech Dynamics';
+        title.textContent = faq.title;
+
+        list.innerHTML = faq.items.map(item => `
+          <div class="contact-card faq-item">
+            <h2>${item.question}</h2>
+            <p>${item.answer}</p>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Nie udało się załadować FAQ:', error);
+        list.innerHTML = `
+          <div class="contact-card">
+            <h2>Błąd ładowania</h2>
+            <p>Nie udało się załadować pytań i odpowiedzi.</p>
+          </div>
+        `;
+      }
+    }
+
+    loadFaq();
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
