@@ -73,12 +73,14 @@ img {
   text-decoration: none;
 }
 
-.logo-wrap > img {
-  width: 145px !important;
-  height: 54px !important;
-  object-fit: cover;
+.logo-wrap > img,
+.site-logo {
+  width: 150px !important;
+  height: auto !important;
+  object-fit: contain;
   object-position: center;
-  border-radius: 4px;
+  border-radius: 0;
+  background: transparent;
 }
 
 .logo-text {
