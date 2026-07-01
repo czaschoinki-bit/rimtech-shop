@@ -219,6 +219,14 @@
             ? `/product.html?slug=${product.slug}`
             : '#kontakt';
 
+          const paymentUrl = product.payment_link && product.payment_link.trim()
+            ? product.payment_link.trim()
+            : '';
+
+          const buyButton = paymentUrl
+            ? `<a class="button" href="${paymentUrl}" target="_blank" rel="noopener noreferrer">Kup teraz</a>`
+            : `<a class="button secondary" href="#kontakt">Zapytaj o zakup</a>`;
+
           return `
             <article class="product">
               ${productImage}
@@ -231,7 +239,10 @@
 
                 ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : ''}
 
-                <a class="button" href="${productUrl}">Zobacz produkt</a>
+                <div class="product-actions">
+                  <a class="button secondary" href="${productUrl}">Zobacz produkt</a>
+                  ${buyButton}
+                </div>
               </div>
             </article>
           `;
