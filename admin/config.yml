@@ -141,6 +141,11 @@ collections:
         file: "content/home.json"
         format: "json"
         fields:
+          - label: "Główny nagłówek"
+            name: "hero_title"
+            widget: "string"
+            required: false
+        
           - label: "Główny opis pod nagłówkiem"
             name: "hero_description"
             widget: "text"
