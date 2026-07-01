@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Dziękujemy za zamówienie - Rimtech Dynamics</title>
+  <meta name="description" content="Potwierdzenie zamówienia Rimtech Dynamics." />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-wrap">
+        <img
+          src="/images/logo-rtd.png"
+          alt="RTD Rimtech Dynamics"
+          class="site-logo"
+        />
+
+        <div class="logo-text">
+          <strong>Rimtech</strong>
+          <span>Dynamics</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="/">Strona główna</a>
+        <a href="/#produkty">Produkty</a>
+        <a href="/o-nas.html">O nas</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/#kontakt">Kontakt</a>
+        <a href="/cart.html" class="cart-link">Koszyk (<span id="cart-count">0</span>)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="contact-card">
+        <div class="section-kicker">Rimtech Dynamics</div>
+        <h1>Dziękujemy za zamówienie</h1>
+
+        <p>
+          Jeśli płatność została poprawnie zakończona, otrzymaliśmy informację o transakcji z Przelewy24.
+        </p>
+
+        <p>
+          Wkrótce skontaktujemy się w sprawie potwierdzenia dopasowania zestawu kół do motocykla.
+        </p>
+
+        <p id="session-info"></p>
+
+        <div class="product-page-actions">
+          <a class="button" href="/">Wróć na stronę główną</a>
+          <a class="button secondary" href="/#kontakt">Kontakt</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      Rimtech Dynamics © 2026
+    </div>
+
+    <div class="footer-links">
+      <a href="/legal.html?doc=regulamin">Regulamin</a>
+      <a href="/legal.html?doc=polityka-prywatnosci">Polityka prywatności</a>
+      <a href="/legal.html?doc=polityka-cookies">Cookies</a>
+      <a href="/legal.html?doc=zwroty-reklamacje">Zwroty i reklamacje</a>
+      <a href="/legal.html?doc=dostawa-platnosci">Dostawa i płatności</a>
+    </div>
+  </footer>
+
+  <script>
+    function getCart() {
+      try {
+        return JSON.parse(localStorage.getItem('rimtech_cart')) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function updateCartCount() {
+      const cartCount = document.getElementById('cart-count');
+
+      if (!cartCount) {
+        return;
+      }
+
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + Number(item.quantity || 1), 0);
+
+      cartCount.textContent = count;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('sessionId');
+
+    if (sessionId) {
+      localStorage.setItem('rimtech_last_session_id', sessionId);
+      document.getElementById('session-info').textContent = `Numer sesji zamówienia: ${sessionId}`;
+    }
+
+    localStorage.removeItem('rimtech_cart');
+    updateCartCount();
+  </script>
+</body>
+</html>
