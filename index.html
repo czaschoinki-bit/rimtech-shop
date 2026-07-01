@@ -42,7 +42,7 @@
         <div>
           <div class="eyebrow">Rimtech Dynamics</div>
 
-          <h1>Koła do supermoto</h1>
+          <h1 id="hero-title">Koła do supermoto</h1>
 
           <p class="hero-description" id="hero-description">
             zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli. Piasty CNC, obręcze 17 cali, dopasowanie pod konkretny motocykl
@@ -159,7 +159,11 @@
         const response = await fetch('/content/home.json');
         const home = await response.json();
 
+        setText('hero-title', home.hero_title);
         setText('hero-description', home.hero_description);
+        setText('hero-primary-button', home.hero_primary_button);
+        setText('hero-secondary-button', home.hero_secondary_button);
+
         setText('contact-email', home.contact_email);
         setText('contact-phone', home.contact_phone);
 
