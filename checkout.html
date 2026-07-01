@@ -136,6 +136,13 @@
       text-align: center;
     }
 
+    .button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
     @media (max-width: 980px) {
       .checkout-layout {
         grid-template-columns: 1fr;
@@ -329,7 +336,8 @@
             <label class="checkbox-field">
               <input type="checkbox" name="terms" required>
               <span>
-                Akceptuję regulamin sklepu oraz zasady zwrotów i reklamacji.
+                Akceptuję <a href="/legal.html?doc=regulamin" target="_blank">regulamin sklepu</a> oraz
+                <a href="/legal.html?doc=zwroty-reklamacje" target="_blank">zasady zwrotów i reklamacji</a>.
               </span>
             </label>
 
@@ -395,9 +403,10 @@
       document.getElementById('checkout-form').addEventListener('submit', handleCheckoutSubmit);
     }
 
-    function handleCheckoutSubmit(event) {
+    async function handleCheckoutSubmit(event) {
       event.preventDefault();
 
+      const submitButton = event.currentTarget.querySelector('button[type="submit"]');
       const cart = getCart();
 
       if (!cart.length) {
@@ -426,7 +435,32 @@
 
       localStorage.setItem('rimtech_order_draft', JSON.stringify(orderDraft));
 
-      alert('Dane zamówienia zapisane. Następny krok to podłączenie płatności Przelewy24.');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Przekierowanie do płatności...';
+
+      try {
+        const response = await fetch('/.netlify/functions/create-p24-payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderDraft)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.paymentUrl) {
+          throw new Error(data.error || 'Nie udało się utworzyć płatności.');
+        }
+
+        localStorage.setItem('rimtech_last_session_id', data.sessionId);
+        window.location.href = data.paymentUrl;
+      } catch (error) {
+        alert(error.message || 'Nie udało się przejść do płatności.');
+
+        submitButton.disabled = false;
+        submitButton.textContent = 'Kupuję i płacę';
+      }
     }
 
     renderCheckout();
