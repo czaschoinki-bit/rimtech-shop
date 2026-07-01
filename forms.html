@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Formularze Rimtech</title>
+</head>
+<body>
+  <form name="rimtech-order" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/order-success.html">
+    <input type="hidden" name="form-name" value="rimtech-order">
+
+    <p style="display:none;">
+      <label>Nie wypełniaj: <input name="bot-field"></label>
+    </p>
+
+    <input type="text" name="subject">
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <input type="text" name="phone">
+    <input type="text" name="address">
+    <input type="text" name="postalCode">
+    <input type="text" name="city">
+    <input type="text" name="paymentMethod">
+    <input type="text" name="total">
+    <textarea name="items"></textarea>
+    <textarea name="notes"></textarea>
+    <textarea name="orderJson"></textarea>
+
+    <button type="submit">Wyślij</button>
+  </form>
+</body>
+</html>
