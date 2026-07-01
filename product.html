@@ -14,10 +14,11 @@
     <div class="header-inner">
       <a href="/" class="logo-wrap">
         <img
-          src="/image.png"
-          alt="RTD"
-          style="height: 44px; width: auto; display: block;"
+          src="/images/logo-rtd.png"
+          alt="RTD Rimtech Dynamics"
+          class="site-logo"
         />
+
         <div class="logo-text">
           <strong>Rimtech</strong>
           <span>Dynamics</span>
@@ -27,7 +28,9 @@
       <nav class="nav">
         <a href="/">Strona główna</a>
         <a href="/#produkty">Produkty</a>
-        <a href="/#o-nas">O nas</a>
+        <a href="/o-nas.html">O nas</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/blog.html">Blog</a>
         <a href="/#kontakt">Kontakt</a>
       </nav>
     </div>
@@ -42,7 +45,17 @@
   </main>
 
   <footer class="site-footer">
-    Rimtech Dynamics © 2026
+    <div>
+      Rimtech Dynamics © 2026
+    </div>
+
+    <div class="footer-links">
+      <a href="/legal.html?doc=regulamin">Regulamin</a>
+      <a href="/legal.html?doc=polityka-prywatnosci">Polityka prywatności</a>
+      <a href="/legal.html?doc=polityka-cookies">Cookies</a>
+      <a href="/legal.html?doc=zwroty-reklamacje">Zwroty i reklamacje</a>
+      <a href="/legal.html?doc=dostawa-platnosci">Dostawa i płatności</a>
+    </div>
   </footer>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
@@ -53,8 +66,88 @@
       return params.get('slug');
     }
 
-    function formatPrice(price) {
-      return Number(price).toLocaleString('pl-PL') + ',00 zł';
+    function escapeHtml(value) {
+      return String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function formatPrice(price, currency = 'PLN') {
+      const formattedPrice = Number(price || 0).toLocaleString('pl-PL') + ',00 zł';
+      return currency === 'PLN' ? formattedPrice : `${formattedPrice} ${escapeHtml(currency)}`;
+    }
+
+    function normalizeList(list, fallbackKey) {
+      if (!Array.isArray(list)) {
+        return [];
+      }
+
+      return list
+        .map(item => {
+          if (typeof item === 'string') {
+            return item;
+          }
+
+          if (item && typeof item === 'object') {
+            return item[fallbackKey] || item.item || item.color || item.model || item.image || '';
+          }
+
+          return '';
+        })
+        .filter(Boolean);
+    }
+
+    function renderList(list, fallbackKey, className = 'compatibility') {
+      const items = normalizeList(list, fallbackKey);
+
+      if (!items.length) {
+        return '';
+      }
+
+      return `
+        <ul class="${className}">
+          ${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    function renderDescription(description) {
+      if (!description) {
+        return '<p>Opis produktu zostanie uzupełniony wkrótce.</p>';
+      }
+
+      const paragraphs = String(description)
+        .split(/\n{2,}/)
+        .map(part => part.trim())
+        .filter(Boolean);
+
+      return paragraphs
+        .map(part => `<p>${escapeHtml(part).replaceAll('\n', '<br>')}</p>`)
+        .join('');
+    }
+
+    function renderGallery(product) {
+      const images = normalizeList(product.gallery, 'image');
+
+      if (!images.length) {
+        return '';
+      }
+
+      return `
+        <div class="product-page-extra">
+          <div class="contact-card">
+            <h2>Galeria</h2>
+            <div class="product-gallery-grid">
+              ${images.map(image => `
+                <img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     async function loadProduct() {
@@ -89,19 +182,24 @@
           return;
         }
 
-        document.title = product.title + ' - Rimtech Dynamics';
-
-        const compatibility = Array.isArray(product.compatibility)
-          ? product.compatibility.map(item => `<li>${item}</li>`).join('')
-          : '';
+        document.title = `${product.title} - Rimtech Dynamics`;
 
         const productImage = product.main_image
-          ? `<img class="product-page-image" src="${product.main_image}" alt="${product.title}">`
+          ? `<img class="product-page-image" src="${escapeHtml(product.main_image)}" alt="${escapeHtml(product.title)}">`
           : `<div class="product-page-image"></div>`;
 
-        const paymentButton = product.payment_link
-          ? `<a class="button" href="${product.payment_link}" target="_blank" rel="noopener">Kup teraz</a>`
+        const paymentUrl = product.payment_link && product.payment_link.trim()
+          ? product.payment_link.trim()
+          : '';
+
+        const paymentButton = paymentUrl
+          ? `<a class="button" href="${escapeHtml(paymentUrl)}" target="_blank" rel="noopener noreferrer">Kup teraz</a>`
           : `<a class="button" href="/#kontakt">Zapytaj o dostępność</a>`;
+
+        const compatibility = renderList(product.compatibility, 'model');
+        const included = renderList(product.included, 'item');
+        const hubColors = renderList(product.hub_colors, 'color');
+        const rimColors = renderList(product.rim_colors, 'color');
 
         container.innerHTML = `
           <div class="product-page">
@@ -111,30 +209,79 @@
 
             <div class="product-page-info">
               <div class="section-kicker">Rimtech Dynamics</div>
-              <h1>${product.title}</h1>
-              <p class="product-page-short">${product.short_description}</p>
 
-              <div class="product-page-price">${formatPrice(product.price)}</div>
-              <div class="availability">${product.availability}</div>
+              ${product.badge ? `<div class="availability">${escapeHtml(product.badge)}</div>` : ''}
+
+              <h1>${escapeHtml(product.title)}</h1>
+
+              <p class="product-page-short">
+                ${escapeHtml(product.short_description)}
+              </p>
+
+              <div class="product-page-price">
+                ${formatPrice(product.price, product.currency)}
+              </div>
+
+              <div class="availability">
+                ${escapeHtml(product.availability || 'Na zamówienie')}
+              </div>
 
               <div class="product-page-actions">
                 ${paymentButton}
                 <a class="button secondary" href="/#kontakt">Dobierz zestaw</a>
               </div>
+
+              <p class="product-page-short">
+                Produkt może wymagać potwierdzenia dopasowania pod konkretny model, rocznik i konfigurację motocykla.
+              </p>
             </div>
           </div>
 
           <div class="product-page-extra">
             <div class="contact-card">
               <h2>Opis produktu</h2>
-              <p>${product.description}</p>
+              ${renderDescription(product.description)}
             </div>
 
             <div class="contact-card">
               <h2>Kompatybilność</h2>
-              ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : '<p>Skontaktuj się z nami w celu potwierdzenia dopasowania.</p>'}
+              ${compatibility || '<p>Skontaktuj się z nami w celu potwierdzenia dopasowania.</p>'}
             </div>
           </div>
+
+          <div class="product-page-extra">
+            <div class="contact-card">
+              <h2>Co zawiera zestaw</h2>
+              ${included || '<p>Zakres zestawu zostanie potwierdzony przed zakupem.</p>'}
+            </div>
+
+            <div class="contact-card">
+              <h2>Konfiguracja</h2>
+
+              <p><strong>Kolory piast:</strong></p>
+              ${hubColors || '<p>Do ustalenia indywidualnie.</p>'}
+
+              <p><strong>Kolory obręczy:</strong></p>
+              ${rimColors || '<p>Do ustalenia indywidualnie.</p>'}
+            </div>
+          </div>
+
+          <div class="product-page-extra">
+            <div class="contact-card">
+              <h2>Dostawa i płatność</h2>
+              <p>Przed realizacją zamówienia potwierdzamy dopasowanie zestawu do motocykla oraz dostępność wybranej konfiguracji.</p>
+              <p>Docelowo płatność zostanie obsłużona przez Przelewy24.</p>
+              <p><a href="/legal.html?doc=dostawa-platnosci">Zobacz informacje o dostawie i płatności</a></p>
+            </div>
+
+            <div class="contact-card">
+              <h2>Zwroty i reklamacje</h2>
+              <p>Produkty wykonywane lub konfigurowane pod indywidualne zamówienie mogą mieć szczególne zasady zwrotu.</p>
+              <p><a href="/legal.html?doc=zwroty-reklamacje">Zobacz zasady zwrotów i reklamacji</a></p>
+            </div>
+          </div>
+
+          ${renderGallery(product)}
         `;
       } catch (error) {
         console.error('Nie udało się załadować produktu:', error);
