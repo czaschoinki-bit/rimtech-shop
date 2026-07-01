@@ -177,6 +177,10 @@
       box-shadow: none;
     }
 
+    .netlify-hidden-form {
+      display: none;
+    }
+
     @media (max-width: 980px) {
       .checkout-layout {
         grid-template-columns: 1fr;
@@ -233,8 +237,18 @@
     </section>
   </main>
 
-  <form name="rimtech-order" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <form
+    name="rimtech-order"
+    method="POST"
+    data-netlify="true"
+    data-netlify-honeypot="bot-field"
+    action="/order-success.html"
+    class="netlify-hidden-form"
+  >
     <input type="hidden" name="form-name" value="rimtech-order">
+    <p>
+      <label>Nie wypełniaj: <input name="bot-field"></label>
+    </p>
     <input type="text" name="subject">
     <input type="text" name="name">
     <input type="email" name="email">
@@ -515,6 +529,7 @@
 
       const netlifyData = {
         'form-name': 'rimtech-order',
+        'bot-field': '',
         subject: `Nowe zamówienie Rimtech Dynamics - ${fullName}`,
         name: fullName,
         email: formData.get('email'),
@@ -535,7 +550,7 @@
       submitButton.textContent = 'Wysyłanie zamówienia...';
 
       try {
-        const response = await fetch('/', {
+        const response = await fetch('/checkout.html', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
