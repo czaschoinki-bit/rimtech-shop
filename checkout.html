@@ -33,7 +33,8 @@
       gap: 7px;
     }
 
-    .form-field label {
+    .form-field label,
+    .payment-label {
       color: var(--text);
       font-size: 12px;
       font-weight: 850;
@@ -56,6 +57,39 @@
     .form-field textarea {
       min-height: 110px;
       resize: vertical;
+    }
+
+    .payment-options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .payment-option {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    .payment-option strong {
+      display: block;
+      color: var(--text);
+    }
+
+    .payment-option span span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .payment-option-disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
     }
 
     .checkbox-field {
@@ -164,11 +198,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="/" class="logo-wrap">
-        <img
-          src="/images/logo-rtd.png"
-          alt="RTD Rimtech Dynamics"
-          class="site-logo"
-        />
+        <img src="/images/logo-rtd.png" alt="RTD Rimtech Dynamics" class="site-logo" />
 
         <div class="logo-text">
           <strong>Rimtech</strong>
@@ -203,10 +233,24 @@
     </section>
   </main>
 
+  <form name="rimtech-order" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="rimtech-order">
+    <input type="text" name="subject">
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <input type="text" name="phone">
+    <input type="text" name="address">
+    <input type="text" name="postalCode">
+    <input type="text" name="city">
+    <input type="text" name="paymentMethod">
+    <input type="text" name="total">
+    <textarea name="items"></textarea>
+    <textarea name="notes"></textarea>
+    <textarea name="orderJson"></textarea>
+  </form>
+
   <footer class="site-footer">
-    <div>
-      Rimtech Dynamics © 2026
-    </div>
+    <div>Rimtech Dynamics © 2026</div>
 
     <div class="footer-links">
       <a href="/legal.html?doc=regulamin">Regulamin</a>
@@ -261,6 +305,12 @@
       return cart.reduce((sum, item) => {
         return sum + Number(item.price || 0) * Number(item.quantity || 1);
       }, 0);
+    }
+
+    function encodeFormData(data) {
+      return Object.keys(data)
+        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+        .join('&');
     }
 
     function renderCheckout() {
@@ -328,6 +378,26 @@
               </div>
             </div>
 
+            <div class="payment-options">
+              <div class="payment-label">Metoda płatności</div>
+
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="Płatność przy odbiorze / po potwierdzeniu" checked>
+                <span>
+                  <strong>Płatność przy odbiorze / po potwierdzeniu</strong>
+                  <span>Zamówienie trafi do obsługi, a szczegóły płatności i realizacji potwierdzimy po sprawdzeniu konfiguracji.</span>
+                </span>
+              </label>
+
+              <label class="payment-option payment-option-disabled">
+                <input type="radio" name="paymentMethod" value="Przelewy24" disabled>
+                <span>
+                  <strong>Przelewy24 - płatność online</strong>
+                  <span>Ta opcja zostanie włączona po aktywacji konta Przelewy24.</span>
+                </span>
+              </label>
+            </div>
+
             <div class="form-field">
               <label for="notes">Uwagi do zamówienia</label>
               <textarea id="notes" name="notes" placeholder="Np. model motocykla, rocznik, kolor piast, kolor obręczy."></textarea>
@@ -349,7 +419,7 @@
             </label>
 
             <button class="button" type="submit">
-              Kupuję i płacę
+              Wyślij zamówienie do potwierdzenia
             </button>
 
             <a class="button secondary" href="/cart.html">
@@ -415,6 +485,9 @@
       }
 
       const formData = new FormData(event.currentTarget);
+      const paymentMethod = formData.get('paymentMethod');
+      const total = getCartTotal(cart);
+      const currency = cart[0].currency || 'PLN';
 
       const orderDraft = {
         customer: {
@@ -427,39 +500,60 @@
           city: formData.get('city'),
           notes: formData.get('notes')
         },
+        paymentMethod,
         items: cart,
-        total: getCartTotal(cart),
-        currency: cart[0].currency || 'PLN',
+        total,
+        currency,
         createdAt: new Date().toISOString()
+      };
+
+      const itemsText = cart.map(item => {
+        return `${item.title} | ilość: ${item.quantity || 1} | cena: ${formatPrice(item.price, item.currency)}`;
+      }).join('\n');
+
+      const fullName = `${formData.get('firstName')} ${formData.get('lastName')}`;
+
+      const netlifyData = {
+        'form-name': 'rimtech-order',
+        subject: `Nowe zamówienie Rimtech Dynamics - ${fullName}`,
+        name: fullName,
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        postalCode: formData.get('postalCode'),
+        city: formData.get('city'),
+        paymentMethod,
+        total: formatPrice(total, currency),
+        items: itemsText,
+        notes: formData.get('notes') || '',
+        orderJson: JSON.stringify(orderDraft, null, 2)
       };
 
       localStorage.setItem('rimtech_order_draft', JSON.stringify(orderDraft));
 
       submitButton.disabled = true;
-      submitButton.textContent = 'Przekierowanie do płatności...';
+      submitButton.textContent = 'Wysyłanie zamówienia...';
 
       try {
-        const response = await fetch('/.netlify/functions/create-p24-payment', {
+        const response = await fetch('/', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
           },
-          body: JSON.stringify(orderDraft)
+          body: encodeFormData(netlifyData)
         });
 
-        const data = await response.json();
-
-        if (!response.ok || !data.paymentUrl) {
-          throw new Error(data.error || 'Nie udało się utworzyć płatności.');
+        if (!response.ok) {
+          throw new Error('Nie udało się wysłać zamówienia.');
         }
 
-        localStorage.setItem('rimtech_last_session_id', data.sessionId);
-        window.location.href = data.paymentUrl;
+        localStorage.removeItem('rimtech_cart');
+        window.location.href = '/order-success.html';
       } catch (error) {
-        alert(error.message || 'Nie udało się przejść do płatności.');
+        alert(error.message || 'Nie udało się wysłać zamówienia.');
 
         submitButton.disabled = false;
-        submitButton.textContent = 'Kupuję i płacę';
+        submitButton.textContent = 'Wyślij zamówienie do potwierdzenia';
       }
     }
 
