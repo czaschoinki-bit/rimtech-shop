@@ -32,6 +32,7 @@
         <a href="/faq.html">FAQ</a>
         <a href="/blog.html">Blog</a>
         <a href="/#kontakt">Kontakt</a>
+        <a href="/cart.html" class="cart-link">Koszyk (<span id="cart-count">0</span>)</a>
       </nav>
     </div>
   </header>
@@ -76,8 +77,59 @@
     }
 
     function formatPrice(price, currency = 'PLN') {
-      const formattedPrice = Number(price || 0).toLocaleString('pl-PL') + ',00 zł';
-      return currency === 'PLN' ? formattedPrice : `${formattedPrice} ${escapeHtml(currency)}`;
+      return new Intl.NumberFormat('pl-PL', {
+        style: 'currency',
+        currency: currency || 'PLN'
+      }).format(Number(price || 0));
+    }
+
+    function getCart() {
+      try {
+        return JSON.parse(localStorage.getItem('rimtech_cart')) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('rimtech_cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const cartCount = document.getElementById('cart-count');
+
+      if (!cartCount) {
+        return;
+      }
+
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => {
+        return sum + Number(item.quantity || 1);
+      }, 0);
+
+      cartCount.textContent = count;
+    }
+
+    function addProductToCart(product) {
+      const cart = getCart();
+      const existingProduct = cart.find(item => item.slug === product.slug);
+      const quantity = Number(product.quantity || 1);
+
+      if (existingProduct) {
+        existingProduct.quantity = Number(existingProduct.quantity || 1) + quantity;
+      } else {
+        cart.push({
+          slug: product.slug,
+          title: product.title,
+          price: Number(product.price || 0),
+          currency: product.currency || 'PLN',
+          image: product.image || '',
+          quantity: quantity
+        });
+      }
+
+      saveCart(cart);
     }
 
     function normalizeList(list, fallbackKey) {
@@ -169,7 +221,7 @@
         const response = await fetch('/data/products.json');
         const data = await response.json();
 
-        const product = data.products.find(item => item.slug === slug && item.active);
+        const product = (data.products || []).find(item => item.slug === slug && item.active);
 
         if (!product) {
           container.innerHTML = `
@@ -184,17 +236,18 @@
 
         document.title = `${product.title} - Rimtech Dynamics`;
 
+        const productForCart = {
+          slug: product.slug,
+          title: product.title,
+          price: product.price,
+          currency: product.currency || 'PLN',
+          image: product.main_image || '',
+          quantity: 1
+        };
+
         const productImage = product.main_image
           ? `<img class="product-page-image" src="${escapeHtml(product.main_image)}" alt="${escapeHtml(product.title)}">`
           : `<div class="product-page-image"></div>`;
-
-        const paymentUrl = product.payment_link && product.payment_link.trim()
-          ? product.payment_link.trim()
-          : '';
-
-        const paymentButton = paymentUrl
-          ? `<a class="button" href="${escapeHtml(paymentUrl)}" target="_blank" rel="noopener noreferrer">Kup teraz</a>`
-          : `<a class="button" href="/#kontakt">Zapytaj o dostępność</a>`;
 
         const compatibility = renderList(product.compatibility, 'model');
         const included = renderList(product.included, 'item');
@@ -227,8 +280,8 @@
               </div>
 
               <div class="product-page-actions">
-                ${paymentButton}
-                <a class="button secondary" href="/#kontakt">Dobierz zestaw</a>
+                <button class="button" type="button" id="buy-now-button">Kup teraz</button>
+                <button class="button secondary" type="button" id="add-to-cart-button">Dodaj do koszyka</button>
               </div>
 
               <p class="product-page-short">
@@ -283,6 +336,23 @@
 
           ${renderGallery(product)}
         `;
+
+        const buyNowButton = document.getElementById('buy-now-button');
+        const addToCartButton = document.getElementById('add-to-cart-button');
+
+        buyNowButton.addEventListener('click', () => {
+          addProductToCart(productForCart);
+          window.location.href = '/cart.html';
+        });
+
+        addToCartButton.addEventListener('click', () => {
+          addProductToCart(productForCart);
+          addToCartButton.textContent = 'Dodano do koszyka';
+
+          setTimeout(() => {
+            addToCartButton.textContent = 'Dodaj do koszyka';
+          }, 1600);
+        });
       } catch (error) {
         console.error('Nie udało się załadować produktu:', error);
         container.innerHTML = `
@@ -296,6 +366,7 @@
     }
 
     loadProduct();
+    updateCartCount();
 
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
