@@ -41,17 +41,28 @@
     <section class="section">
       <div class="contact-card">
         <div class="section-kicker">Rimtech Dynamics</div>
-        <h1>Dziękujemy za zamówienie</h1>
+
+        <h1>Dziękujemy za złożenie zamówienia</h1>
 
         <p>
-          Jeśli płatność została poprawnie zakończona, otrzymaliśmy informację o transakcji z Przelewy24.
+          Otrzymaliśmy Twoje zamówienie do potwierdzenia. Sprawdzimy dostępność zestawu,
+          dopasowanie do motocykla oraz wybraną konfigurację.
         </p>
 
         <p>
-          Wkrótce skontaktujemy się w sprawie potwierdzenia dopasowania zestawu kół do motocykla.
+          Skontaktujemy się z Tobą telefonicznie lub mailowo, aby potwierdzić szczegóły realizacji,
+          termin przygotowania oraz sposób płatności.
         </p>
 
-        <p id="session-info"></p>
+        <p>
+          Jeśli w uwagach podałeś model motocykla, rocznik, kolor piast lub obręczy,
+          uwzględnimy te informacje przy weryfikacji zamówienia.
+        </p>
+
+        <p>
+          <strong>Ważne:</strong> na tym etapie zamówienie nie wymaga płatności online.
+          Płatność i realizacja zostaną potwierdzone po kontakcie z obsługą Rimtech Dynamics.
+        </p>
 
         <div class="product-page-actions">
           <a class="button" href="/">Wróć na stronę główną</a>
@@ -95,14 +106,6 @@
       const count = cart.reduce((sum, item) => sum + Number(item.quantity || 1), 0);
 
       cartCount.textContent = count;
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get('sessionId');
-
-    if (sessionId) {
-      localStorage.setItem('rimtech_last_session_id', sessionId);
-      document.getElementById('session-info').textContent = `Numer sesji zamówienia: ${sessionId}`;
     }
 
     localStorage.removeItem('rimtech_cart');
