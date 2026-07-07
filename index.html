@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Rimtech Dynamics - Koła do supermoto</title>
-  <meta name="description" content="Koła do supermoto. Zestawy kół do motocykli KTM, Husqvarna, Beta, GasGas i innych modeli." />
+  <title>Rimtech Dynamics - Koła supermoto KTM, Husqvarna, GasGas, Beta</title>
+  <meta name="description" content="Rimtech Dynamics - zestawy kół supermoto 17 cali do motocykli KTM, Husqvarna, GasGas, Beta i innych modeli. Piasty CNC, dopasowanie pod konkretny motocykl." />
 
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -32,6 +34,7 @@
         <a href="/faq.html">FAQ</a>
         <a href="/blog.html">Blog</a>
         <a href="/#kontakt">Kontakt</a>
+        <a href="/cart.html">Koszyk (<span id="cart-count">0</span>)</a>
       </nav>
     </div>
   </header>
@@ -149,9 +152,39 @@
   <script>
     function setText(id, value) {
       const element = document.getElementById(id);
-      if (element && value) {
+
+      if (element && value !== undefined && value !== null && value !== '') {
         element.textContent = value;
       }
+    }
+
+    function getCart() {
+      try {
+        return JSON.parse(localStorage.getItem('rimtech_cart')) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function updateCartCount() {
+      const cartCount = document.getElementById('cart-count');
+
+      if (!cartCount) {
+        return;
+      }
+
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + Number(item.quantity || 1), 0);
+
+      cartCount.textContent = count;
+    }
+
+    function formatPrice(price, currency) {
+      return new Intl.NumberFormat('pl-PL', {
+        style: 'currency',
+        currency: currency || 'PLN',
+        minimumFractionDigits: 2
+      }).format(Number(price || 0));
     }
 
     async function loadHomeContent() {
@@ -193,6 +226,36 @@
       }
     }
 
+    function activateClickableProducts() {
+      document.querySelectorAll('.clickable-product').forEach(card => {
+        card.addEventListener('click', event => {
+          if (event.target.closest('a, button')) {
+            return;
+          }
+
+          const url = card.dataset.url;
+
+          if (url) {
+            window.location.href = url;
+          }
+        });
+
+        card.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+          }
+
+          event.preventDefault();
+
+          const url = card.dataset.url;
+
+          if (url) {
+            window.location.href = url;
+          }
+        });
+      });
+    }
+
     async function loadProducts() {
       const productsList = document.getElementById('products-list');
 
@@ -228,13 +291,13 @@
             : `<a class="button secondary" href="#kontakt">Zapytaj o zakup</a>`;
 
           return `
-            <article class="product">
+            <article class="product clickable-product" data-url="${productUrl}" tabindex="0" role="link" aria-label="Zobacz produkt ${product.title}">
               ${productImage}
 
               <div class="product-content">
                 <h3>${product.title}</h3>
                 <p>${product.short_description}</p>
-                <div class="price">${Number(product.price).toLocaleString('pl-PL')},00 zł</div>
+                <div class="price">${formatPrice(product.price, product.currency)}</div>
                 <div class="availability">${product.availability}</div>
 
                 ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : ''}
@@ -247,6 +310,8 @@
             </article>
           `;
         }).join('');
+
+        activateClickableProducts();
       } catch (error) {
         console.error('Nie udało się załadować produktów:', error);
         productsList.innerHTML = '<p>Nie udało się załadować produktów.</p>';
@@ -255,6 +320,9 @@
 
     loadHomeContent();
     loadProducts();
+    updateCartCount();
+
+    window.addEventListener('storage', updateCartCount);
 
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
