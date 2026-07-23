@@ -14,13 +14,26 @@
       ],
       "currency": "PLN",
       "gallery": [
-        "/images/uploads/nowy-projekt-62-.jpg"
+        "/images/uploads/nowy-projekt-61-.jpg",
+        "/images/uploads/nowy-projekt-62-.jpg",
+        "/images/uploads/nowy-projekt-87-.jpg"
       ],
       "payment_link": "",
-      "main_image": "",
+      "main_image": "/images/uploads/nowy-projekt-61-.jpg",
       "title": "Komplet kół Supermoto KTM",
       "short_description": "Komplet kół 17 cali do KTM EXC / EXC-F.",
+      "rim_colors": [
+        "Pomarańczowy"
+      ],
+      "hub_colors": [
+        "Pomarańczowy"
+      ],
       "availability": "Dostępny",
+      "included": [
+        "1x przednie koło 3.5x17",
+        "1x tylne koło 3.5x17",
+        "Zestaw tulejek przód tył"
+      ],
       "description": "Komplet kół supermoto 17 cali do motocykli KTM EXC oraz EXC-F. Możliwość doboru koloru piast, obręczy, tarcz oraz zębatki pod konkretny model motocykla."
     }
   ]
