@@ -35,6 +35,21 @@
         "Zestaw tulejek przód tył"
       ],
       "description": "Komplet kół supermoto 17 cali do motocykli KTM EXC oraz EXC-F. Możliwość doboru koloru piast, obręczy, tarcz oraz zębatki pod konkretny model motocykla."
+    },
+    {
+      "active": true,
+      "price": 2698,
+      "slug": "kola sm niebieskie",
+      "currency": "PLN",
+      "gallery": [
+        "/images/uploads/nowy-projekt-77-.jpg",
+        "/images/uploads/nowy-projekt-78-.jpg"
+      ],
+      "main_image": "/images/uploads/nowy-projekt-77-.jpg",
+      "title": "Komplet Kół Supermoto Niebieskich",
+      "short_description": "Komplet kół 17 cali do KTM EXC / EXC-F.",
+      "availability": "Dostępny",
+      "description": "Koła"
     }
   ]
 }
