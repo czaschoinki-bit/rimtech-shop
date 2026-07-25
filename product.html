@@ -7,6 +7,8 @@
   <title>Produkt - Rimtech Dynamics</title>
   <meta name="description" content="Szczegóły produktu Rimtech Dynamics - koła do supermoto." />
 
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -62,6 +64,9 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
   <script>
+    let currentGalleryImages = [];
+    let currentGalleryIndex = 0;
+
     function getSlugFromUrl() {
       const params = new URLSearchParams(window.location.search);
       return params.get('slug');
@@ -181,25 +186,115 @@
         .join('');
     }
 
-    function renderGallery(product) {
-      const images = normalizeList(product.gallery, 'image');
+    function buildProductImages(product) {
+      const images = [];
 
-      if (!images.length) {
-        return '';
+      if (product.main_image) {
+        images.push(product.main_image);
       }
 
-      return `
-        <div class="product-page-extra">
-          <div class="contact-card">
-            <h2>Galeria</h2>
-            <div class="product-gallery-grid">
-              ${images.map(image => `
-                <img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">
-              `).join('')}
+      normalizeList(product.gallery, 'image').forEach(image => {
+        if (image && !images.includes(image)) {
+          images.push(image);
+        }
+      });
+
+      return images;
+    }
+
+    function renderProductGallery(product) {
+      const images = buildProductImages(product);
+
+      if (!images.length) {
+        return `
+          <div class="product-page-gallery">
+            <div class="product-main-image-wrap">
+              <div class="product-page-image product-page-image-placeholder"></div>
             </div>
           </div>
+        `;
+      }
+
+      const thumbnails = images.map((image, index) => `
+        <button
+          class="product-thumbnail ${index === 0 ? 'active' : ''}"
+          type="button"
+          data-gallery-index="${index}"
+          aria-label="Pokaż zdjęcie ${index + 1}"
+        >
+          <img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)} - zdjęcie ${index + 1}">
+        </button>
+      `).join('');
+
+      const arrows = images.length > 1
+        ? `
+          <button class="gallery-arrow gallery-arrow-prev" type="button" id="gallery-prev" aria-label="Poprzednie zdjęcie">‹</button>
+          <button class="gallery-arrow gallery-arrow-next" type="button" id="gallery-next" aria-label="Następne zdjęcie">›</button>
+        `
+        : '';
+
+      return `
+        <div class="product-page-gallery">
+          <div class="product-main-image-wrap">
+            <img
+              id="active-product-image"
+              class="product-page-image"
+              src="${escapeHtml(images[0])}"
+              alt="${escapeHtml(product.title)}"
+            >
+
+            ${arrows}
+          </div>
+
+          ${images.length > 1 ? `
+            <div class="product-thumbnails" aria-label="Miniatury zdjęć produktu">
+              ${thumbnails}
+            </div>
+          ` : ''}
         </div>
       `;
+    }
+
+    function setActiveProductImage(index) {
+      if (!currentGalleryImages.length) {
+        return;
+      }
+
+      currentGalleryIndex = (index + currentGalleryImages.length) % currentGalleryImages.length;
+
+      const activeImage = document.getElementById('active-product-image');
+
+      if (activeImage) {
+        activeImage.src = currentGalleryImages[currentGalleryIndex];
+      }
+
+      document.querySelectorAll('.product-thumbnail').forEach(button => {
+        const buttonIndex = Number(button.dataset.galleryIndex);
+        button.classList.toggle('active', buttonIndex === currentGalleryIndex);
+      });
+    }
+
+    function setupProductGallery() {
+      document.querySelectorAll('.product-thumbnail').forEach(button => {
+        button.addEventListener('click', () => {
+          setActiveProductImage(Number(button.dataset.galleryIndex));
+        });
+      });
+
+      const previousButton = document.getElementById('gallery-prev');
+      const nextButton = document.getElementById('gallery-next');
+
+      if (previousButton) {
+        previousButton.addEventListener('click', () => {
+          setActiveProductImage(currentGalleryIndex - 1);
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', () => {
+          setActiveProductImage(currentGalleryIndex + 1);
+        });
+      }
     }
 
     async function loadProduct() {
@@ -236,6 +331,9 @@
 
         document.title = `${product.title} - Rimtech Dynamics`;
 
+        currentGalleryImages = buildProductImages(product);
+        currentGalleryIndex = 0;
+
         const productForCart = {
           slug: product.slug,
           title: product.title,
@@ -245,10 +343,6 @@
           quantity: 1
         };
 
-        const productImage = product.main_image
-          ? `<img class="product-page-image" src="${escapeHtml(product.main_image)}" alt="${escapeHtml(product.title)}">`
-          : `<div class="product-page-image"></div>`;
-
         const compatibility = renderList(product.compatibility, 'model');
         const included = renderList(product.included, 'item');
         const hubColors = renderList(product.hub_colors, 'color');
@@ -256,9 +350,7 @@
 
         container.innerHTML = `
           <div class="product-page">
-            <div class="product-page-gallery">
-              ${productImage}
-            </div>
+            ${renderProductGallery(product)}
 
             <div class="product-page-info">
               <div class="section-kicker">Rimtech Dynamics</div>
@@ -323,7 +415,7 @@
             <div class="contact-card">
               <h2>Dostawa i płatność</h2>
               <p>Przed realizacją zamówienia potwierdzamy dopasowanie zestawu do motocykla oraz dostępność wybranej konfiguracji.</p>
-              <p>Docelowo płatność zostanie obsłużona przez Przelewy24.</p>
+              <p>Płatność online Przelewy24 zostanie uruchomiona po aktywacji konta płatniczego.</p>
               <p><a href="/legal.html?doc=dostawa-platnosci">Zobacz informacje o dostawie i płatności</a></p>
             </div>
 
@@ -333,9 +425,9 @@
               <p><a href="/legal.html?doc=zwroty-reklamacje">Zobacz zasady zwrotów i reklamacji</a></p>
             </div>
           </div>
-
-          ${renderGallery(product)}
         `;
+
+        setupProductGallery();
 
         const buyNowButton = document.getElementById('buy-now-button');
         const addToCartButton = document.getElementById('add-to-cart-button');
