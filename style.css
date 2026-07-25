@@ -854,3 +854,122 @@ img {
   outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
+.product-page-gallery {
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+  overflow: visible;
+}
+
+.product-main-image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.product-page-gallery .product-page-image {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
+  padding: 18px;
+  background: #ffffff;
+}
+
+.product-page-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f0f1f2;
+}
+
+.product-thumbnails {
+  display: flex;
+  gap: 10px;
+  padding: 3px 0 7px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.product-thumbnail {
+  flex: 0 0 86px;
+  width: 86px;
+  height: 66px;
+  padding: 4px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  opacity: 0.72;
+  transition:
+    opacity 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.product-thumbnail:hover,
+.product-thumbnail.active {
+  opacity: 1;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-dark);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--text);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.gallery-arrow:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.gallery-arrow-prev {
+  left: 12px;
+}
+
+.gallery-arrow-next {
+  right: 12px;
+}
+
+@media (max-width: 720px) {
+  .product-page-gallery {
+    padding: 10px;
+  }
+
+  .product-thumbnail {
+    flex-basis: 74px;
+    width: 74px;
+    height: 58px;
+  }
+
+  .gallery-arrow {
+    width: 34px;
+    height: 34px;
+    font-size: 24px;
+  }
+}
