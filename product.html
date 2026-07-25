@@ -47,6 +47,22 @@
     </section>
   </main>
 
+  <div class="image-lightbox" id="image-lightbox" aria-hidden="true" hidden>
+    <button class="image-lightbox-close" id="lightbox-close" type="button" aria-label="Zamknij zdjęcie">×</button>
+
+    <button class="image-lightbox-arrow image-lightbox-prev" id="lightbox-prev" type="button" aria-label="Poprzednie zdjęcie">‹</button>
+
+    <div class="image-lightbox-stage">
+      <img id="lightbox-image" class="image-lightbox-image" src="" alt="Powiększone zdjęcie produktu">
+    </div>
+
+    <button class="image-lightbox-arrow image-lightbox-next" id="lightbox-next" type="button" aria-label="Następne zdjęcie">›</button>
+
+    <div class="image-lightbox-hint">
+      Kliknij zdjęcie, aby przybliżyć / oddalić
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div>
       Rimtech Dynamics © 2026
@@ -238,7 +254,7 @@
           <div class="product-main-image-wrap">
             <img
               id="active-product-image"
-              class="product-page-image"
+              class="product-page-image zoomable-product-image"
               src="${escapeHtml(images[0])}"
               alt="${escapeHtml(product.title)}"
             >
@@ -274,6 +290,110 @@
       });
     }
 
+    function setLightboxImage(index) {
+      if (!currentGalleryImages.length) {
+        return;
+      }
+
+      currentGalleryIndex = (index + currentGalleryImages.length) % currentGalleryImages.length;
+
+      const lightboxImage = document.getElementById('lightbox-image');
+
+      if (lightboxImage) {
+        lightboxImage.src = currentGalleryImages[currentGalleryIndex];
+      }
+
+      setActiveProductImage(currentGalleryIndex);
+    }
+
+    function openProductLightbox(index) {
+      const lightbox = document.getElementById('image-lightbox');
+
+      if (!lightbox) {
+        return;
+      }
+
+      lightbox.hidden = false;
+      setLightboxImage(index);
+
+      lightbox.classList.add('active');
+      lightbox.classList.remove('zoomed');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lightbox-open');
+    }
+
+    function closeProductLightbox() {
+      const lightbox = document.getElementById('image-lightbox');
+
+      if (!lightbox) {
+        return;
+      }
+
+      lightbox.classList.remove('active');
+      lightbox.classList.remove('zoomed');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lightbox-open');
+      lightbox.hidden = true;
+    }
+
+    function setupProductLightbox() {
+      const lightbox = document.getElementById('image-lightbox');
+      const closeButton = document.getElementById('lightbox-close');
+      const previousButton = document.getElementById('lightbox-prev');
+      const nextButton = document.getElementById('lightbox-next');
+      const lightboxImage = document.getElementById('lightbox-image');
+
+      if (!lightbox) {
+        return;
+      }
+
+      if (closeButton) {
+        closeButton.onclick = closeProductLightbox;
+      }
+
+      if (previousButton) {
+        previousButton.onclick = () => {
+          setLightboxImage(currentGalleryIndex - 1);
+        };
+      }
+
+      if (nextButton) {
+        nextButton.onclick = () => {
+          setLightboxImage(currentGalleryIndex + 1);
+        };
+      }
+
+      if (lightboxImage) {
+        lightboxImage.onclick = () => {
+          lightbox.classList.toggle('zoomed');
+        };
+      }
+
+      lightbox.onclick = event => {
+        if (event.target === lightbox) {
+          closeProductLightbox();
+        }
+      };
+
+      document.onkeydown = event => {
+        if (!lightbox.classList.contains('active')) {
+          return;
+        }
+
+        if (event.key === 'Escape') {
+          closeProductLightbox();
+        }
+
+        if (event.key === 'ArrowLeft') {
+          setLightboxImage(currentGalleryIndex - 1);
+        }
+
+        if (event.key === 'ArrowRight') {
+          setLightboxImage(currentGalleryIndex + 1);
+        }
+      };
+    }
+
     function setupProductGallery() {
       document.querySelectorAll('.product-thumbnail').forEach(button => {
         button.addEventListener('click', () => {
@@ -295,6 +415,27 @@
           setActiveProductImage(currentGalleryIndex + 1);
         });
       }
+
+      const activeImage = document.getElementById('active-product-image');
+
+      if (activeImage) {
+        activeImage.addEventListener('click', () => {
+          openProductLightbox(currentGalleryIndex);
+        });
+
+        activeImage.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openProductLightbox(currentGalleryIndex);
+          }
+        });
+
+        activeImage.setAttribute('tabindex', '0');
+        activeImage.setAttribute('role', 'button');
+        activeImage.setAttribute('aria-label', 'Powiększ zdjęcie produktu');
+      }
+
+      setupProductLightbox();
     }
 
     async function loadProduct() {
