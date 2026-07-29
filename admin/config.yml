@@ -79,12 +79,13 @@ collections:
 
               - label: "Galeria zdjęć"
                 name: "gallery"
-                widget: "list"
+                widget: "image"
                 required: false
-                field:
-                  label: "Zdjęcie"
-                  name: "image"
-                  widget: "image"
+                allow_multiple: true
+                media_library:
+                  config:
+                    multiple: true
+                hint: "Możesz wybrać kilka zdjęć jednocześnie z biblioteki mediów."
 
               - label: "Kompatybilność"
                 name: "compatibility"
