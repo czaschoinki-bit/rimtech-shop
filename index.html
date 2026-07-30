@@ -158,6 +158,15 @@
       }
     }
 
+    function escapeHtml(value) {
+      return String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
     function getCart() {
       try {
         return JSON.parse(localStorage.getItem('rimtech_cart')) || [];
@@ -262,7 +271,7 @@
       try {
         const response = await fetch('/data/products.json');
         const data = await response.json();
-        const products = data.products.filter(product => product.active);
+        const products = (data.products || []).filter(product => product.active);
 
         if (!products.length) {
           productsList.innerHTML = '<p>Brak aktywnych produktów.</p>';
@@ -270,42 +279,24 @@
         }
 
         productsList.innerHTML = products.map(product => {
-          const compatibility = Array.isArray(product.compatibility)
-            ? product.compatibility.slice(0, 5).map(item => `<li>${item}</li>`).join('')
-            : '';
-
-          const productImage = product.main_image
-            ? `<img class="product-image" src="${product.main_image}" alt="${product.title}">`
-            : `<div class="product-image"></div>`;
-
           const productUrl = product.slug
-            ? `/product.html?slug=${product.slug}`
+            ? `/product.html?slug=${encodeURIComponent(product.slug)}`
             : '#kontakt';
 
-          const paymentUrl = product.payment_link && product.payment_link.trim()
-            ? product.payment_link.trim()
-            : '';
-
-          const buyButton = paymentUrl
-            ? `<a class="button" href="${paymentUrl}" target="_blank" rel="noopener noreferrer">Kup teraz</a>`
-            : `<a class="button secondary" href="#kontakt">Zapytaj o zakup</a>`;
+          const productImage = product.main_image
+            ? `<img class="product-image" src="${escapeHtml(product.main_image)}" alt="${escapeHtml(product.title)}">`
+            : `<div class="product-image product-image-placeholder"></div>`;
 
           return `
-            <article class="product clickable-product" data-url="${productUrl}" tabindex="0" role="link" aria-label="Zobacz produkt ${product.title}">
-              ${productImage}
+            <article class="product simple-product clickable-product" data-url="${productUrl}" tabindex="0" role="link" aria-label="Zobacz produkt ${escapeHtml(product.title)}">
+              <div class="product-image-wrap">
+                ${productImage}
+              </div>
 
-              <div class="product-content">
-                <h3>${product.title}</h3>
-                <p>${product.short_description}</p>
+              <div class="product-content simple-product-content">
+                <h3>${escapeHtml(product.title)}</h3>
                 <div class="price">${formatPrice(product.price, product.currency)}</div>
-                <div class="availability">${product.availability}</div>
-
-                ${compatibility ? `<ul class="compatibility">${compatibility}</ul>` : ''}
-
-                <div class="product-actions">
-                  <a class="button secondary" href="${productUrl}">Zobacz produkt</a>
-                  ${buyButton}
-                </div>
+                <a class="button" href="${productUrl}">Zobacz produkt</a>
               </div>
             </article>
           `;
