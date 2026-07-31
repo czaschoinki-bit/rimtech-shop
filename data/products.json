@@ -26,7 +26,7 @@
       ],
       "main_image": "/images/uploads/Nowy projekt (77).jpg",
       "title": "Supermoto Set Turkus",
-      "short_description": "",
+      "short_description": "Komplet kół supermoto 17 cali do motocykli KTM EXC / EXC-F.",
       "rim_colors": [
         "Turkus"
       ],
@@ -65,7 +65,7 @@
       ],
       "main_image": "/images/uploads/Nowy projekt (63).jpg",
       "title": "Supermoto Set Granatowy",
-      "short_description": "",
+      "short_description": "Komplet kół supermoto 17 cali do motocykli KTM EXC / EXC-F.",
       "rim_colors": [
         "Granatowy"
       ],
@@ -122,6 +122,7 @@
       "badge": "bestseller",
       "active": true,
       "price": 2699,
+      "slug": "supermoto-set-Pomarańcz",
       "compatibility": [
         "Koła mogą zostać dopasowane do wielu pełnowymiarowych motocykli (standardowe rozstawy śrub jak w seryjnych kołach enduro). Obsługujemy różne konfiguracje osi (m.in. 26/20 mm, 22/20 mm, 22/25 mm, 22/22 mm). Przykładowe serie motocykli: KTM: EXC, EXC-F, XC-W, XCF-W, SX, SX-F, XC, XC-F Husqvarna: TE, FE, TC, FC, TX, FX Husaberg: TE, FE, FX GasGas: EC, EC-F, MC, MC-F, EX, EX-F",
         "WAŻNE – DARMOWA KONSULTACJA I DOBÓR TULEJEKSama średnica osi to nie wszystko. Przed zakupem (w wiadomości do sprzedającego) prosimy o podanie: marki, modelu, pojemności oraz rocznika motocykla. Na tej podstawie bezpłatnie zweryfikujemy kompatybilność i dobierzemy odpowiednie tulejki, aby koła pasowały Plug&Play."
@@ -143,6 +144,7 @@
       ],
       "main_image": "/images/uploads/Nowy projekt (61).jpg",
       "title": "Supermoto Set Pomarańcz",
+      "short_description": "Komplet kół supermoto 17 cali do motocykli KTM EXC / EXC-F.",
       "rim_colors": [
         "Pomarańcz"
       ],
@@ -159,6 +161,7 @@
     {
       "active": true,
       "price": 2699,
+      "slug": "supermoto-set-czerwien-czern",
       "currency": "PLN",
       "gallery": [
         "/images/uploads/Nowy projekt (76).jpg",
@@ -172,6 +175,7 @@
       ],
       "main_image": "/images/uploads/Nowy projekt (75).jpg",
       "title": "Supermoto Set Czerwień/Czerń",
+      "short_description": "Komplet kół supermoto 17 cali w kolorystyce czerwień/czerń do KTM EXC / EXC-F.",
       "rim_colors": [
         "Czarny"
       ],
