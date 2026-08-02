@@ -340,7 +340,19 @@
       "slug": "supermoto-set-czern-pomarancz",
       "currency": "PLN",
       "gallery": [
-        "/images/uploads/Nowy projekt (60).jpg"
+        "/images/uploads/Nowy projekt (60).jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T180531.325.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T180641.309.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T180757.451.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T182754.009.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T182907.325.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183012.962.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183140.067.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183232.504.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183422.133.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183703.889.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183830.842.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T183949.018.jpg"
       ],
       "main_image": "/images/uploads/Nowy projekt (59).jpg",
       "title": "Supermoto Set Czerń/Pomarańcz",
@@ -361,19 +373,31 @@
     {
       "active": true,
       "price": 2799,
-      "slug": "supermoto-set-czern-roz",
+      "slug": "supermoto-set-czern-fiolet",
       "currency": "PLN",
       "gallery": [
-        "/images/uploads/Nowy projekt (68).jpg"
+        "/images/uploads/Nowy projekt (68).jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T174900.390.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175011.011.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175127.571.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175238.348.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175352.803.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175519.839.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175646.004.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175745.084.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T175859.999.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T180005.802.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T180122.352.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T180302.244.jpg"
       ],
       "main_image": "/images/uploads/Nowy projekt (67).jpg",
-      "title": "Supermoto Set Czerń/Róż",
-      "short_description": "Komplet kół supermoto 17 cali w kolorystyce czerń/róż do KTM EXC / EXC-F.",
+      "title": "Supermoto Set Czerń/Fiolet",
+      "short_description": "Komplet kół supermoto 17 cali w kolorystyce czerń/fiolet do KTM EXC / EXC-F.",
       "rim_colors": [
         "Czerń"
       ],
       "hub_colors": [
-        "Róż"
+        "Fiolet"
       ],
       "availability": "Dostępny",
       "included": [
@@ -388,7 +412,15 @@
       "slug": "supermoto-set-czern-zloto",
       "currency": "PLN",
       "gallery": [
-        "/images/uploads/Nowy projekt (72).jpg"
+        "/images/uploads/Nowy projekt (72).jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T190121.018.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T190236.482.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T190438.764.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T190613.333.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T190722.107.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T190846.631.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T191029.745.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-19T191134.925.jpg"
       ],
       "main_image": "/images/uploads/Nowy projekt (71).jpg",
       "title": "Supermoto Set Czerń/Złoto",
@@ -412,7 +444,19 @@
       "slug": "supermoto-set-czern-niebieski",
       "currency": "PLN",
       "gallery": [
-        "/images/uploads/Nowy projekt (83).jpg"
+        "/images/uploads/Nowy projekt (83).jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T131243.854.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T131353.977.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T131449.555.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T131551.760.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T131756.917.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T131900.870.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T132033.633.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T132124.262.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T132227.464.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T132343.167.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T132433.360.jpg",
+        "/images/uploads/Nowy projekt - 2026-07-22T132545.303.jpg"
       ],
       "main_image": "/images/uploads/Nowy projekt (82).jpg",
       "title": "Supermoto Set Czerń/Niebieski",
