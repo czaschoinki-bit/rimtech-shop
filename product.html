@@ -446,10 +446,11 @@
 
       if (!tag) {
         tag = document.createElement('meta');
-        const match = selector.match(/meta\\[([^=]+)="([^"]+)"\\]/);
 
-        if (match) {
-          tag.setAttribute(match[1], match[2]);
+        if (selector.includes('property=')) {
+          tag.setAttribute('property', selector.split('"')[1]);
+        } else if (selector.includes('name=')) {
+          tag.setAttribute('name', selector.split('"')[1]);
         }
 
         document.head.appendChild(tag);
