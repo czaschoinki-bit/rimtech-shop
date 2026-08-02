@@ -58,6 +58,7 @@ collections:
               - label: "Krótki opis"
                 name: "short_description"
                 widget: "text"
+                required: false
 
               - label: "Pełny opis"
                 name: "description"
@@ -95,6 +96,7 @@ collections:
                   label: "Model motocykla"
                   name: "model"
                   widget: "string"
+                  required: false
 
               - label: "Kolory piast"
                 name: "hub_colors"
