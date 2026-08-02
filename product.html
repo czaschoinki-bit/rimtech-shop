@@ -441,6 +441,95 @@
       setupProductLightbox();
     }
 
+    function setMetaTag(selector, attribute, value) {
+      let tag = document.head.querySelector(selector);
+
+      if (!tag) {
+        tag = document.createElement('meta');
+        const match = selector.match(/meta\\[([^=]+)="([^"]+)"\\]/);
+
+        if (match) {
+          tag.setAttribute(match[1], match[2]);
+        }
+
+        document.head.appendChild(tag);
+      }
+
+      tag.setAttribute(attribute, value);
+    }
+
+    function updateProductSeo(product) {
+      const rimColors = normalizeList(product.rim_colors, 'color').join(' / ');
+      const hubColors = normalizeList(product.hub_colors, 'color').join(' / ');
+      const colorDescription = rimColors && hubColors
+        ? `Obręcze: ${rimColors}, piasty: ${hubColors}.`
+        : '';
+
+      const seoTitle = `${product.title} – koła Supermoto 17″ | Rimtech Dynamics`;
+      const seoDescription = `Komplet kół Supermoto 17″ ${product.title.replace('Supermoto Set ', '')}. ${colorDescription} Piasty CNC, obręcze 7116-T6 i dopasowanie do KTM, Husqvarna, GasGas oraz innych motocykli.`;
+      const canonicalUrl = `${window.location.origin}/product.html?slug=${encodeURIComponent(product.slug)}`;
+      const imageUrl = product.main_image
+        ? new URL(product.main_image, window.location.origin).href
+        : '';
+
+      document.title = seoTitle;
+      document.querySelector('meta[name="description"]').setAttribute('content', seoDescription);
+
+      let canonical = document.head.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = canonicalUrl;
+
+      setMetaTag('meta[property="og:type"]', 'content', 'product');
+      setMetaTag('meta[property="og:title"]', 'content', seoTitle);
+      setMetaTag('meta[property="og:description"]', 'content', seoDescription);
+      setMetaTag('meta[property="og:url"]', 'content', canonicalUrl);
+      if (imageUrl) {
+        setMetaTag('meta[property="og:image"]', 'content', imageUrl);
+      }
+      setMetaTag('meta[name="twitter:card"]', 'content', 'summary_large_image');
+      setMetaTag('meta[name="twitter:title"]', 'content', seoTitle);
+      setMetaTag('meta[name="twitter:description"]', 'content', seoDescription);
+      if (imageUrl) {
+        setMetaTag('meta[name="twitter:image"]', 'content', imageUrl);
+      }
+
+      const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.title,
+        description: seoDescription,
+        image: buildProductImages(product).map(image => new URL(image, window.location.origin).href),
+        sku: product.slug,
+        brand: {
+          '@type': 'Brand',
+          name: 'Rimtech Dynamics'
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          priceCurrency: product.currency || 'PLN',
+          price: Number(product.price || 0),
+          availability: product.availability === 'Dostępny'
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/PreOrder',
+          itemCondition: 'https://schema.org/NewCondition'
+        }
+      };
+
+      let script = document.getElementById('product-structured-data');
+      if (!script) {
+        script = document.createElement('script');
+        script.id = 'product-structured-data';
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(structuredData);
+    }
+
     async function loadProduct() {
       const container = document.getElementById('product-details');
       const slug = getSlugFromUrl();
@@ -473,7 +562,7 @@
           return;
         }
 
-        document.title = `${product.title} - Rimtech Dynamics`;
+        updateProductSeo(product);
 
         currentGalleryImages = buildProductImages(product);
         currentGalleryIndex = 0;
