@@ -736,10 +736,71 @@ img {
 }
 
 .product-page-extra {
-  margin-top: 34px;
+  margin-top: 24px;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
+  align-items: start;
+}
+
+.product-page-extra-wide {
+  grid-template-columns: 1fr;
+}
+
+.product-page-extra > .contact-card {
+  align-self: start;
+  min-height: 0;
+  padding: 26px 30px;
+}
+
+.product-page-extra > .contact-card h2 {
+  margin-bottom: 14px;
+  font-size: 25px;
+}
+
+.product-config-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.product-config-row:first-of-type {
+  border-top: 0;
+  padding-top: 2px;
+}
+
+.product-config-row > strong {
+  min-width: 72px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.product-config-tags ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.product-config-tags li,
+.product-config-tags > span {
+  padding: 6px 10px;
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #f6f7f7;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.product-config-tags li::marker {
+  content: "";
 }
 
 /* LIGHTBOX */
