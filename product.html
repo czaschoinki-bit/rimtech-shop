@@ -616,12 +616,14 @@
             </div>
           </div>
 
-          <div class="product-page-extra">
+          <div class="product-page-extra product-page-extra-wide">
             <div class="contact-card">
               <h2>Opis produktu</h2>
               ${renderDescription(product.description)}
             </div>
+          </div>
 
+          <div class="product-page-extra product-page-extra-wide">
             <div class="contact-card">
               <h2>Kompatybilność</h2>
               ${compatibility || '<p>Skontaktuj się z nami w celu potwierdzenia dopasowania.</p>'}
@@ -637,11 +639,19 @@
             <div class="contact-card">
               <h2>Konfiguracja</h2>
 
-              <p><strong>Kolory piast:</strong></p>
-              ${hubColors || '<p>Do ustalenia indywidualnie.</p>'}
+              <div class="product-config-row">
+                <strong>Piasty</strong>
+                <div class="product-config-tags">
+                  ${hubColors || '<span>Do ustalenia</span>'}
+                </div>
+              </div>
 
-              <p><strong>Kolory obręczy:</strong></p>
-              ${rimColors || '<p>Do ustalenia indywidualnie.</p>'}
+              <div class="product-config-row">
+                <strong>Obręcze</strong>
+                <div class="product-config-tags">
+                  ${rimColors || '<span>Do ustalenia</span>'}
+                </div>
+              </div>
             </div>
           </div>
 
